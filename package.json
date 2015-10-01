@@ -1,0 +1,45 @@
+{
+  "name": "angularjs_dropdown",
+  "version": "1.0.0",
+  "description": "an angularjs dropdown directive",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "node_modules/.bin/bower install",
+    "start": "http-server ./www -a localhost -p 8080 -c-1 -o",
+    "update": "npm install && gulp update",
+    "init": "npm install && gulp setup"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tlkiong/angularjs_dropdown.git"
+  },
+  "keywords": [
+    "AngularJS",
+    "Dropdown"
+  ],
+  "author": "Kiong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tlkiong/angularjs_dropdown/issues"
+  },
+  "homepage": "https://github.com/tlkiong/angularjs_dropdown#readme",
+  "devDependencies": {
+    "del": "^2.0.2",
+    "gulp": "^3.9.0",
+    "gulp-angular-filesort": "^1.1.1",
+    "gulp-bower": "0.0.10",
+    "gulp-connect": "^2.2.0",
+    "gulp-inject": "^3.0.0",
+    "gulp-ngdocs": "^0.2.13",
+    "gulp-open": "^1.0.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.0.4",
+    "gulp-watch": "^4.3.5",
+    "http-server": "^0.8.5",
+    "main-bower-files": "^2.9.0",
+    "merge-stream": "^1.0.0",
+    "run-sequence": "^1.1.4"
+  }
+}

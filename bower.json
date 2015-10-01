@@ -1,0 +1,34 @@
+{
+  "name": "AngularJS Dropdown Directive",
+  "version": "1.0.0",
+  "homepage": "https://github.com/tlkiong/angularjs_dropdown",
+  "authors": [
+    "Kiong <kiong90@gmail.com>"
+  ],
+  "description": "An AngularJS Dropdown Directive",
+  "main": "www/index.html",
+  "moduleType": [],
+  "keywords": [
+    "AngularJS",
+    "Dropdown",
+    "Directive"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "lib/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.7",
+    "angular-animate": "~1.4.7",
+    "angular-ui-router": "~0.2.15",
+    "angular-sanitize": "~1.4.7",
+    "angular-toastr": "~1.5.0",
+    "angular-touch": "~1.4.7"
+  }
+}
