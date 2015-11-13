@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/tlkiong/angularjs_dropdown#readme",
   "devDependencies": {
+    "bower": "^1.6.5",
     "del": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-angular-filesort": "^1.1.1",
