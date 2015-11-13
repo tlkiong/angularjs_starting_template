@@ -48,12 +48,14 @@ gulp.task('ngdocs', [], function() {
 gulp.task('setup', function() {
     runSequence('bower',
         'generateView',
+        'sass',
         'inject');
 });
 
 // For dev purpose. Must have bower & npm install done previously
 gulp.task('dev', function() {
     runSequence('generateView',
+        'sass',
         'inject');
     // load live reload server
 });
@@ -61,6 +63,7 @@ gulp.task('dev', function() {
 gulp.task('update', function() {
     runSequence('bower',
         'generateView',
+        'sass',
         'inject');
 });
 
