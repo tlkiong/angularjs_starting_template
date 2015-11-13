@@ -1,4 +1,6 @@
 (function () {
+    'use strict';
+    
 	angular.module("Sample", [])
 		.config(function ($stateProvider) {
 			$stateProvider
