@@ -5,10 +5,9 @@
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "node_modules/.bin/bower install",
+    "postinstall": "node_modules/.bin/bower install && gulp setup",
     "start": "http-server ./www -a localhost -p 8080 -c-1 -o",
-    "update": "npm install && gulp update",
-    "init": "npm install && gulp setup"
+    "update": "npm install && gulp update"
   },
   "repository": {
     "type": "git",
