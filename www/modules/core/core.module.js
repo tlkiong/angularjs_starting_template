@@ -9,4 +9,3 @@
 			'ui.router',
 			'Core.Components'
 		]);
-})();
