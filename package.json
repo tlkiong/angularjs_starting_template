@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "node_modules/.bin/bower install && gulp setup",
+    "postinstall": "gulp setup",
     "start": "http-server ./www -a localhost -p 8080 -c-1 -o",
     "update": "npm install && gulp update"
   },
@@ -14,7 +14,7 @@
     "url": "git+https://github.com/tlkiong/angularjs_starting_template.git"
   },
   "keywords": [
-    "AngularJS Starting Template",
+    "AngularJS Starting Template"
   ],
   "author": "Kiong",
   "license": "MIT",

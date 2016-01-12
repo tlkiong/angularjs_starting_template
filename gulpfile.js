@@ -103,7 +103,7 @@ gulp.task('generateView', function() {
     // compileModuleSass stream
     var compileModuleSass = gulp.src('./www/modules/**/*.scss')
         .pipe(sass().on('error', sass.logError))
-        .pipe(gulp.dest('./www/css'));
+        .pipe(gulp.dest('./www/modules'));
     // End of compileModuleSass stream
 
     return merge(compileModuleSass, createIndexHtml);
