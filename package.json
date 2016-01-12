@@ -1,7 +1,7 @@
 {
-  "name": "angularjs_dropdown",
+  "name": "AngularJS_Starting_Template",
   "version": "1.0.0",
-  "description": "an angularjs dropdown directive",
+  "description": "AngularJS Starting Template",
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,18 +11,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tlkiong/angularjs_dropdown.git"
+    "url": "git+https://github.com/tlkiong/angularjs_starting_template.git"
   },
   "keywords": [
-    "AngularJS",
-    "Dropdown"
+    "AngularJS Starting Template",
   ],
   "author": "Kiong",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tlkiong/angularjs_dropdown/issues"
+    "url": "https://github.com/tlkiong/angularjs_starting_template/issues"
   },
-  "homepage": "https://github.com/tlkiong/angularjs_dropdown#readme",
+  "homepage": "https://github.com/tlkiong/angularjs_starting_template#readme",
   "devDependencies": {
     "bower": "^1.6.5",
     "del": "^2.0.2",

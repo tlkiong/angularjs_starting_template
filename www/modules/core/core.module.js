@@ -5,7 +5,5 @@
 			'ngSanitize',
 			'ngTouch',
 			'ngAnimate',
-			'toastr',
 			'ui.router',
-			'Core.Components'
 		]);

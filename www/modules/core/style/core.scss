@@ -7,3 +7,13 @@
     display: flex;
     flex-flow: column nowrap;
 }
+
+.flowAcross {
+	display: flex;
+	flex-flow: row wrap;
+}
+
+.flowDown {
+	display: flex;
+	flex-flow: column wrap;
+}
