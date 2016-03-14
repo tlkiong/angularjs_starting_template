@@ -24,7 +24,6 @@
   "homepage": "https://github.com/tlkiong/angularjs_starting_template#readme",
   "devDependencies": {
     "bower": "^1.6.5",
-    "del": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-angular-filesort": "^1.1.1",
     "gulp-bower": "0.0.10",
@@ -32,7 +31,6 @@
     "gulp-inject": "^3.0.0",
     "gulp-ngdocs": "^0.2.13",
     "gulp-open": "^1.0.0",
-    "gulp-plumber": "^1.0.1",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.0.4",
     "gulp-watch": "^4.3.5",
