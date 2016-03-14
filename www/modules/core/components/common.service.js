@@ -12,7 +12,6 @@
         service.resetForm = resetForm;
         service.getDateInDDMMMMYYYY = getDateInDDMMMMYYYY;
         service.getUUID = getUUID;
-        service.getEpochTimeInMs = getEpochTimeInMs;
         service.isObjPresent = isObjPresent;
         service.getObjType = getObjType;
         service.getUUID = getUUID;
@@ -266,18 +265,6 @@
                 }
             } else {
                 throw new Error(obj + ' is not an array, string, boolean or number. This fn only work with those for now');
-            }
-        }
-
-        function getEpochTimeInMs(epochDateTime) {
-            var totalNoOfCharForCurrentTimeInSeconds = Number(Math.floor(Date.now() / 1000)).toString().length;
-            var totalNoOfCharForCurrentTimeInMilliseconds = Number(Date.now()).toString().length;
-            if (Number(epochDateTime).toString().length == totalNoOfCharForCurrentTimeInMilliseconds) {
-                return epochDateTime
-            } else if (Number(epochDateTime).toString().length == totalNoOfCharForCurrentTimeInSeconds) {
-                return epochDateTime * 1000
-            } else {
-                throw new TypeError('Parameter passed in is not in seconds or milliseconds');
             }
         }
 
