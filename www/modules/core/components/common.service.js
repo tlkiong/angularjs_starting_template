@@ -11,7 +11,6 @@
         var service = this;
         service.resetForm = resetForm;
         service.getDateInDDMMMMYYYY = getDateInDDMMMMYYYY;
-        service.getUUID = getUUID;
         service.isObjPresent = isObjPresent;
         service.getObjType = getObjType;
         service.getUUID = getUUID;
