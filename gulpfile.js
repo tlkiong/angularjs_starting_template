@@ -1,6 +1,5 @@
 'use strict';
 
-var del = require('del');
 var gulp = require('gulp');
 var angularFilesort = require('gulp-angular-filesort');
 var bower = require('gulp-bower');
@@ -8,7 +7,6 @@ var connect = require('gulp-connect');
 var inject = require('gulp-inject');
 var gulpDocs = require('gulp-ngdocs');
 var gulpOpen = require('gulp-open');
-var plumber = require('gulp-plumber');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
 var watch = require('gulp-watch');
