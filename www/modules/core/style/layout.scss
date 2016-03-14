@@ -1,0 +1,54 @@
+// @import "globals/all";
+
+/**
+ * For layout classess
+ */
+
+// =============================================== Grid System =============================================
+.flexAcross {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.flexDown {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.flowAcross {
+	display: flex;
+	flex-flow: row wrap;
+}
+
+.flowDown {
+	display: flex;
+	flex-flow: column wrap;
+}
+
+.reverse {
+	flex-direction: reverse;
+}
+
+.flexExpand {
+	-webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+
+.flexShrink {
+	-webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+}
+
+.disabled {
+    opacity: 0.5;
+}
+
+.enabled {
+    opacity: 1.0;
+}
+
+.clickable  {
+    cursor: pointer;
+}

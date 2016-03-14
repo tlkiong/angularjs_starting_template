@@ -1,27 +1,25 @@
 (function() {
-    
     'use strict';
-    
-    angular.module('Core')
-        .service('sessionService', sessionService);
 
-    sessionService.$inject = ['commonService'];
+    angular.module('Root')
+        .controller('rootController', rootController);
 
-    function sessionService(commonService) {
-        var service = this;
-        service.isUserLoggedIn = isUserLoggedIn;
+    rootController.$inject = ['commonService', 'rootService'];
+
+    function rootController(commonService, rootService) {
+        var vm = this;
 
         /* ======================================== Var ==================================================== */
-        service.userData = {            
+        vm.misc = {
             
         };
 
         /* ======================================== Services =============================================== */
+        var svc = rootService;
+        var cmnSvc = commonService;
 
         /* ======================================== Public Methods ========================================= */
-        function isUserLoggedIn() {
-            // Check if user is logged in
-        }
+        
 
         /* ======================================== Private Methods ======================================== */
         function init() {
@@ -30,5 +28,4 @@
 
         init();
     }
-
 })();
