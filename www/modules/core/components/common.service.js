@@ -201,6 +201,8 @@
          *         - function(param1, param2, param3) { }
          *     A non empty function is:
          *         - function() { console.log(); } 
+         *     An invalid date will return false for this function
+         *     A valid date will return true for this function
          *     This will just check if its empty or not and not check if its syntatically correct or not
          * @param  {object}  obj [Since everything in javascript is considered an object, just pass in anything]
          * @return {Boolean}     [If its not blank, then will return true. Else, it will return false]
