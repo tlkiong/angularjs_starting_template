@@ -178,8 +178,8 @@
                 '[object Number]': 'number',
                 '[object Null]': 'null',
                 '[object Undefined]': 'undefined',
-                '[object Function]': 'function'
-
+                '[object Function]': 'function',
+                '[object Date]': 'date'
             }
 
             return prop[Object.prototype.toString.call(object)];
@@ -261,6 +261,12 @@
                     return true;
                 } else {
                     return false;
+                }
+            } else if (type === 'date') {
+                if (isNaN(obj.getTime())) {
+                    return false; // Date is invalid
+                } else {
+                    return true; // Date is valid
                 }
             } else {
                 throw new Error(obj + ' is not an array, string, boolean or number. This fn only work with those for now');
