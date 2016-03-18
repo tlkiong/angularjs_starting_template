@@ -27,7 +27,7 @@
         // service.cancelMyBooking = cancelMyBooking;               <= update data at said location
 
         /* ======================================== Var ==================================================== */
-        var firebaseUrl = 'https://eventhiro.firebaseio.com/';
+        var firebaseUrl = '';
         var misc = {
             isListeningToAuth: false
         }
