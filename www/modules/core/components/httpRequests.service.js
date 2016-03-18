@@ -33,48 +33,67 @@
 	        function http(apiObjKey, headerObj, dataObj, authToken, idOnUrl) {
 	            var deferred = cmnSvc.$q.defer();
 
-	            var headerObject = (headerObj === undefined || headerObj === null) ? {} : headerObj;
-	            var dataObject = (dataObj === undefined || dataObj === null) ? {} : dataObj;
+	            var headerObject = cmnSvc.isObjPresent(headerObj) ? headerObj : {};
+	            var dataObj = cmnSvc.isObjPresent(dataObj) ? dataObj : {};
 
 	            if (authToken === true) {
-	            	// =========== Do note this structure is a standard in Rails. Change it to suit your backend API ===
-	                // headerObject['Authorization'] = 'Token token=' + sessionSvc.userData.access_token;
+	                headerObject['Authorization'] = 'Token token=' + sessionSvc.userData.access_token
 	            }
 
-	            if (idOnUrl === undefined || idOnUrl === null) {
-	                idOnUrl = '';
-	            } else {
+	            if(cmnSvc.isObjPresent(idOnUrl)) {
 	                idOnUrl = '/' + idOnUrl;
+	            } else {
+	                idOnUrl = '';
 	            }
 
 	            var nextUrl = '';
-	            if (!(apiObj[apiObjKey].nextUrlPart === undefined || apiObj[apiObjKey].nextUrlPart === null)) {
+	            if (cmnSvc.isObjPresent(apiObj[apiObjKey].nextUrlPart)) {
 	                nextUrl = '/' + apiObj[apiObjKey].nextUrlPart;
 	            }
 
-	            // If HTTP GET/DELETE request, API params to be set to "params" key in $http request object
+	            if (cmnSvc.isObjPresent(dataObj) && (cmnSvc.isObjPresent(dataObj.image_url))) {
+	                dataObj.image_url = dataObj.image_url.$ngfDataUrl.substring(dataObj.image_url.$ngfDataUrl.indexOf(',') + 1);
+	            }
+
+	            // If HTTP GET request, API params to be set to "params" key in $http request object
 	            // If HTTP POST/PUT request, API params to be set to "data" key in $http request object
 	            if (apiObj[apiObjKey].methodType.toLowerCase() == 'get' || apiObj[apiObjKey].methodType.toLowerCase() == 'delete') {
 	                $http({
 	                    method: apiObj[apiObjKey].methodType,
 	                    url: service.baseUrl + apiObj[apiObjKey].url + idOnUrl + nextUrl,
 	                    headers: headerObject,
-	                    params: dataObject
+	                    params: dataObj
 	                }).then(function(rs) {
-	                	deferred.resolve(rs);
-	                }, function(err) {
-	                    deferred.rejet(err);
+	                    if(cmnSvc.isObjPresent(rs.data.status)) {
+	                        if (rs.data.status.toLowerCase() === 'ok') {
+	                            deferred.resolve(rs.data);
+	                        } else {
+	                            deferred.reject(rs.data);
+	                        }
+	                    } else {
+	                        deferred.reject(rs.data);
+	                    }
+	                }, function(err) { // This should never be called as all reponses will be a 200
+	                    console.log('Non processed error by server. ' + err.data); // To be removed for prod
 	                });
 	            } else {
 	                $http({
 	                    method: apiObj[apiObjKey].methodType,
 	                    url: service.baseUrl + apiObj[apiObjKey].url + idOnUrl + nextUrl,
 	                    headers: headerObject,
-	                    data: dataObject
+	                    data: dataObj
 	                }).then(function(rs) {
-	                    deferred.resolve(rs);
-	                }, function(err) {
-	                    deferred.reject(err);
+	                    if(cmnSvc.isObjPresent(rs.data.status)) {
+	                        if (rs.data.status.toLowerCase() === 'ok') {
+	                            deferred.resolve(rs.data);
+	                        } else {
+	                            deferred.reject(rs.data);
+	                        }
+	                    } else {
+	                        deferred.reject(rs.data);
+	                    }
+	                }, function(err) { // This should never be called as all reponses will be a 200
+	                    console.log('Non processed error by server. ' + err.data); // To be removed for prod
 	                });
 	            }
 
