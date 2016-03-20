@@ -4,17 +4,17 @@
     angular.module('Sample')
         .controller('sampleController', sampleController);
 
-    sampleController.$inject = ['commonService'];
+    sampleController.$inject = ['commonService', 'sampleService'];
 
-    function sampleController(commonService) {
+    function sampleController(commonService, sampleService) {
         var vm = this;
 
         /* ======================================== Var ==================================================== */
         vm.misc = {};
 
         /* ======================================== Services =============================================== */
+        var svc = sampleService;
         var cmnSvc = commonService;
-        var sessionSvc = sessionService;
 
         /* ======================================== Public Methods ========================================= */
 
