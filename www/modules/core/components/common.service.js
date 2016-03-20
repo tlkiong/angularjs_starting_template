@@ -5,9 +5,9 @@
     angular.module('Core')
         .service('commonService', commonService);
 
-    commonService.$inject = ['$stateParams', 'sessionService', '$q', '$timeout', '$window'];
+    commonService.$inject = ['$stateParams', '$q', '$timeout', '$window'];
 
-    function commonService($stateParams, sessionService, $q, $timeout, $window) {
+    function commonService($stateParams, $q, $timeout, $window) {
         var service = this;
         service.resetForm = resetForm;
         service.getDateInDDMMMMYYYY = getDateInDDMMMMYYYY;
@@ -25,7 +25,6 @@
         service.$window = $window;
 
         /* ======================================== Services =============================================== */
-        var sessionSvc = sessionService;
         var stateParam = $stateParams;
 
         /* ======================================== Public Methods ========================================= */
