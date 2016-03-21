@@ -9,6 +9,12 @@
             $urlRouterProvider.otherwise('/');
             $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|file|blob|cdvfile|content):|data:image\//);
 
+            // use the HTML5 History API
+            // Also known as remove the '#' from the URL
+            $locationProvider.html5Mode({
+                enabled: true,
+                requireBase: false
+            });
             /* ==================================== Translation ==================================== */
             // --- To use the below translation provider, add as param in the config's fn: translationHelperProvider
             // ---      The dependency used here is 'angular-translate'
@@ -16,6 +22,7 @@
             
             // $translateProvider.translations('en', translationSvc.getTranslationType('en'));
             // $translateProvider.preferredLanguage('en');
+            // $translateProvider.useSanitizeValueStrategy('sanitize'); // Refer http://angular-translate.github.io/docs/#/guide/19_security for security on Angular-translate
             /* ==================================== End: Translation ==================================== */
 
         }).run(function(/* $state */$rootScope) {
