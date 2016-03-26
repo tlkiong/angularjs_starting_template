@@ -5,7 +5,7 @@
             'Core',
             'Directives'
         ])
-        .config(function($stateProvider, $urlRouterProvider, $compileProvider) {
+        .config(function($locationProvider, $stateProvider, $urlRouterProvider, $compileProvider) {
             $urlRouterProvider.otherwise('/');
             $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|file|blob|cdvfile|content):|data:image\//);
 
