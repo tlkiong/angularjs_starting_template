@@ -5,9 +5,9 @@
     angular.module('Core')
         .service('commonService', commonService);
 
-    commonService.$inject = ['$stateParams', '$q', '$timeout', '$window'];
+    commonService.$inject = ['$document', '$stateParams', '$q', '$timeout', '$window'];
 
-    function commonService($stateParams, $q, $timeout, $window) {
+    function commonService($document, $stateParams, $q, $timeout, $window) {
         var service = this;
         service.resetForm = resetForm;
         service.getDateInDDMMMMYYYY = getDateInDDMMMMYYYY;
