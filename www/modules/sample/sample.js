@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     
-	angular.module("Sample", [])
+	angular.module('Sample', [])
 		.config(function ($stateProvider) {
 			$stateProvider
 				.state('sample', {

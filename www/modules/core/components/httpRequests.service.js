@@ -33,23 +33,26 @@
 	        function http(apiObjKey, headerObj, dataObj, authToken, idOnUrl) {
 	            var deferred = cmnSvc.$q.defer();
 
-	            var headerObject = (headerObj === undefined || headerObj === null) ? {} : headerObj;
-	            var dataObject = (dataObj === undefined || dataObj === null) ? {} : dataObj;
+	            var headerObject = cmnSvc.isObjPresent(headerObj) ? headerObj : {};
+	            var dataObject = cmnSvc.isObjPresent(dataObj) ? dataObj : {};
 
 	            if (authToken === true) {
-	            	// =========== Do note this structure is a standard in Rails. Change it to suit your backend API ===
-	                // headerObject['Authorization'] = 'Token token=' + sessionSvc.userData.access_token;
+	                headerObject['Authorization'] = 'Token token=' + sessionSvc.userData.access_token
 	            }
 
-	            if (idOnUrl === undefined || idOnUrl === null) {
-	                idOnUrl = '';
-	            } else {
+	            if(cmnSvc.isObjPresent(idOnUrl)) {
 	                idOnUrl = '/' + idOnUrl;
+	            } else {
+	                idOnUrl = '';
 	            }
 
 	            var nextUrl = '';
-	            if (!(apiObj[apiObjKey].nextUrlPart === undefined || apiObj[apiObjKey].nextUrlPart === null)) {
+	            if (cmnSvc.isObjPresent(apiObj[apiObjKey].nextUrlPart)) {
 	                nextUrl = '/' + apiObj[apiObjKey].nextUrlPart;
+	            }
+
+	            if (cmnSvc.isObjPresent(dataObject) && (cmnSvc.isObjPresent(dataObject.image_url))) {
+	                dataObject.image_url = dataObject.image_url.$ngfDataUrl.substring(dataObject.image_url.$ngfDataUrl.indexOf(',') + 1);
 	            }
 
 	            // If HTTP GET/DELETE request, API params to be set to "params" key in $http request object
