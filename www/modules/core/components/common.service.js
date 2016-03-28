@@ -179,7 +179,10 @@
                 '[object Null]': 'null',
                 '[object Undefined]': 'undefined',
                 '[object Function]': 'function',
-                '[object Date]': 'date'
+                '[object Date]': 'date',
+                '[object HTMLDivElement]': 'htmlDivElement',
+                '[object Blob]': 'blob',
+                '[object File]': 'file'
             }
 
             return prop[Object.prototype.toString.call(object)];
@@ -270,6 +273,26 @@
                 } else {
                     return true; // Date is valid
                 }
+            } else if (type === 'htmlDivElement') {
+                if(type.toString().length > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if (type === 'blob') {
+                console.log('blob: ',obj);
+                if(obj.size > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if (type === 'file') {
+                for (var key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        return true;
+                    }
+                }
+                return false;
             } else {
                 throw new Error(obj + ' is not an array, string, boolean or number. This fn only work with those for now');
             }
