@@ -5,9 +5,9 @@
     angular.module('Core')
         .service('commonService', commonService);
 
-    commonService.$inject = ['$state', '$stateParams', '$q', '$timeout', '$window'];
+    commonService.$inject = ['$document', '$state', '$stateParams', '$q', '$timeout', '$window'];
 
-    function commonService($state, $stateParams, $q, $timeout, $window) {
+    function commonService($document, $state, $stateParams, $q, $timeout, $window) {
         var service = this;
         service.resetForm = resetForm;
         service.getDateInDDMMMMYYYY = getDateInDDMMMMYYYY;
@@ -15,6 +15,8 @@
         service.getObjType = getObjType;
         service.getUUID = getUUID;
         service.isEpochTimeInMs = isEpochTimeInMs;
+        service.getValInNumber = getValInNumber;
+        service.loadingMode = loadingMode;
         service.goToPage = goToPage;
         service.getCurrentState = getCurrentState;
         service.getStateParam = getStateParam;
@@ -56,6 +58,50 @@
             }
 
             return stateObj.$$state;
+        }
+
+        function loadingMode(isLoading) {
+            if(isLoading === true || isLoading === false) {
+                if(isLoading == true) {
+                    if(!isObjPresent(document.getElementById('loadingContainer'))) {
+                        var loadingHtml = '<div id="loadingContainer"><div id="spinner"></div></div>';
+                        var body = $document.find('body').eq(0);
+                        body.append(loadingHtml);
+                        
+                        var opts = {
+                            lines: 13, // The number of lines to draw
+                            length: 28, // The length of each line
+                            width: 14, // The line thickness
+                            radius: 50, // The radius of the inner circle
+                            scale: 1, // Scales overall size of the spinner
+                            corners: 1, // Corner roundness (0..1)
+                            color: '#FFF', // #rgb or #rrggbb or array of colors
+                            opacity: 0, // Opacity of the lines
+                            rotate: 0, // The rotation offset
+                            direction: 1, // 1: clockwise, -1: counterclockwise
+                            speed: 1, // Rounds per second
+                            trail: 100, // Afterglow percentage
+                            fps: 20, // Frames per second when using setTimeout() as a fallback for CSS
+                            zIndex: 2e9, // The z-index (defaults to 2000000000)
+                            className: 'spinner', // The CSS class to assign to the spinner
+                            top: '50%', // Top position relative to parent
+                            left: '50%', // Left position relative to parent
+                            shadow: false, // Whether to render a shadow
+                            hwaccel: false, // Whether to use hardware acceleration
+                            position: 'absolute' // Element positioning
+                        }
+                        var target = document.getElementById('spinner')
+                        spinner = new Spinner(opts).spin(target);
+                    }
+                } else {
+                    if(isObjPresent(spinner)) {
+                        spinner.stop();
+                        angular.element(document.getElementById('loadingContainer')).remove();
+                    }
+                }
+            } else {
+                throw new Error ('Parameter can only be TRUE or FALSE');
+            }
         }
 
         // This function will return the following:
@@ -123,7 +169,10 @@
                 '[object Null]': 'null',
                 '[object Undefined]': 'undefined',
                 '[object Function]': 'function',
-                '[object Date]': 'date'
+                '[object Date]': 'date',
+                '[object HTMLDivElement]': 'htmlDivElement',
+                '[object Blob]': 'blob',
+                '[object File]': 'file'
             }
 
             return prop[Object.prototype.toString.call(object)];
@@ -214,6 +263,26 @@
                 } else {
                     return true; // Date is valid
                 }
+            } else if (type === 'htmlDivElement') {
+                if(type.toString().length > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if (type === 'blob') {
+                console.log('blob: ',obj);
+                if(obj.size > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if (type === 'file') {
+                for (var key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        return true;
+                    }
+                }
+                return false;
             } else {
                 throw new Error(obj + ' is not an array, string, boolean or number. This fn only work with those for now');
             }
