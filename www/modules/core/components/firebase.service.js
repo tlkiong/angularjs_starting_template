@@ -202,7 +202,7 @@
                             sessionSvc.userData.role = rs.role;
                             sessionSvc.userData.emailAdd = rs.emailAdd;
                             sessionSvc.userData.isLoggedIn = true;
-                            sessionSvc.saveSession();
+                            // sessionSvc.saveSession();
                             startListenAuth();
                             deferred.resolve(rs);
                         }, function(err) {
@@ -263,10 +263,10 @@
                             sessionSvc.userData.tokenExpiry = authData.expires;
                             sessionSvc.userData.uid = authData.uid;
                             sessionSvc.userData.fullName = rs.fullName;
-                            sessionSvc.userData.dateOfBirth = rs.dateOfBirth;
+                            sessionSvc.userData.role = rs.role;
                             sessionSvc.userData.emailAdd = rs.emailAdd;
                             sessionSvc.userData.isLoggedIn = true;
-                            sessionSvc.saveSession();
+                            // sessionSvc.saveSession();
 
                             startListenAuth();
 
