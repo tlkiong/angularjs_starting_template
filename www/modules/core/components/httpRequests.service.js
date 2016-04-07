@@ -66,7 +66,7 @@
 	                }).then(function(rs) {
 	                	deferred.resolve(rs);
 	                }, function(err) {
-	                    deferred.rejet(err);
+	                    deferred.reject(err);
 	                });
 	            } else {
 	                $http({
