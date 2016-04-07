@@ -60,38 +60,72 @@
             return stateObj.$$state;
         }
 
-        function loadingMode(isLoading) {
+        function loadingMode(isLoading, containerIdToAddThisLoader) {
             if(isLoading === true || isLoading === false) {
                 if(isLoading == true) {
-                    if(!isObjPresent(document.getElementById('loadingContainer'))) {
-                        var loadingHtml = '<div id="loadingContainer"><div id="spinner"></div></div>';
-                        var body = $document.find('body').eq(0);
-                        body.append(loadingHtml);
-                        
-                        var opts = {
-                            lines: 13, // The number of lines to draw
-                            length: 28, // The length of each line
-                            width: 14, // The line thickness
-                            radius: 50, // The radius of the inner circle
-                            scale: 1, // Scales overall size of the spinner
-                            corners: 1, // Corner roundness (0..1)
-                            color: '#FFF', // #rgb or #rrggbb or array of colors
-                            opacity: 0, // Opacity of the lines
-                            rotate: 0, // The rotation offset
-                            direction: 1, // 1: clockwise, -1: counterclockwise
-                            speed: 1, // Rounds per second
-                            trail: 100, // Afterglow percentage
-                            fps: 20, // Frames per second when using setTimeout() as a fallback for CSS
-                            zIndex: 2e9, // The z-index (defaults to 2000000000)
-                            className: 'spinner', // The CSS class to assign to the spinner
-                            top: '50%', // Top position relative to parent
-                            left: '50%', // Left position relative to parent
-                            shadow: false, // Whether to render a shadow
-                            hwaccel: false, // Whether to use hardware acceleration
-                            position: 'absolute' // Element positioning
+                    if(isObjPresent(containerIdToAddThisLoader) == true) {
+                        if(!isObjPresent(document.getElementById('loadingContainer'))) {
+                            var loadingHtml = angular.element('<div id="loadingContainer"><div id="spinner"></div></div>');
+                            var dom = angular.element(document.getElementById(containerIdToAddThisLoader));
+                            dom.css("position", "relative"); // This has to be double "" as '' does not work.
+                            dom.append(loadingHtml);
+                            
+                            var opts = {
+                                lines: 13, // The number of lines to draw
+                                length: 28, // The length of each line
+                                width: 14, // The line thickness
+                                radius: 50, // The radius of the inner circle
+                                scale: 1, // Scales overall size of the spinner
+                                corners: 1, // Corner roundness (0..1)
+                                color: '#FFF', // #rgb or #rrggbb or array of colors
+                                opacity: 0, // Opacity of the lines
+                                rotate: 0, // The rotation offset
+                                direction: 1, // 1: clockwise, -1: counterclockwise
+                                speed: 1, // Rounds per second
+                                trail: 100, // Afterglow percentage
+                                fps: 20, // Frames per second when using setTimeout() as a fallback for CSS
+                                zIndex: 2e9, // The z-index (defaults to 2000000000)
+                                className: 'spinner', // The CSS class to assign to the spinner
+                                top: '50%', // Top position relative to parent
+                                left: '50%', // Left position relative to parent
+                                shadow: false, // Whether to render a shadow
+                                hwaccel: false, // Whether to use hardware acceleration
+                                position: 'absolute' // Element positioning
+                            }
+                            var target = document.getElementById('spinner')
+                            spinner = new Spinner(opts).spin(target);
                         }
-                        var target = document.getElementById('spinner')
-                        spinner = new Spinner(opts).spin(target);
+                    } else {
+                        if(!isObjPresent(document.getElementById('loadingContainer'))) {
+                            var loadingHtml = '<div id="loadingContainer"><div id="spinner"></div></div>';
+                            var body = $document.find('body').eq(0);
+                            body.append(loadingHtml);
+                            
+                            var opts = {
+                                lines: 13, // The number of lines to draw
+                                length: 28, // The length of each line
+                                width: 14, // The line thickness
+                                radius: 50, // The radius of the inner circle
+                                scale: 1, // Scales overall size of the spinner
+                                corners: 1, // Corner roundness (0..1)
+                                color: '#FFF', // #rgb or #rrggbb or array of colors
+                                opacity: 0, // Opacity of the lines
+                                rotate: 0, // The rotation offset
+                                direction: 1, // 1: clockwise, -1: counterclockwise
+                                speed: 1, // Rounds per second
+                                trail: 100, // Afterglow percentage
+                                fps: 20, // Frames per second when using setTimeout() as a fallback for CSS
+                                zIndex: 2e9, // The z-index (defaults to 2000000000)
+                                className: 'spinner', // The CSS class to assign to the spinner
+                                top: '50%', // Top position relative to parent
+                                left: '50%', // Left position relative to parent
+                                shadow: false, // Whether to render a shadow
+                                hwaccel: false, // Whether to use hardware acceleration
+                                position: 'absolute' // Element positioning
+                            }
+                            var target = document.getElementById('spinner')
+                            spinner = new Spinner(opts).spin(target);
+                        }
                     }
                 } else {
                     if(isObjPresent(spinner)) {
