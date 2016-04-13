@@ -12,6 +12,7 @@
         var service = this;
         service.getFirebaseRef = getFirebaseRef;
         service.getUserProfile = getUserProfile;    // <= Assuming you have a user profile location
+        service.getAllMyUsers = getAllMyUsers;
         service.simpleLogin = simpleLogin;
         service.createSimpleLoginUser = createSimpleLoginUser;
         service.isLoggedInToFirebase = isLoggedInToFirebase;
@@ -283,12 +284,28 @@
             return deferred.promise;
         }
 
+        function getAllMyUsers() {
+            var deferred = cmnSvc.$q.defer();
+            
+            getFirebaseRef('users').then(function(rs) {
+                rs.once('value', function(snap) {
+                    deferred.resolve(snap.val());
+                }, function(err){
+                    deferred.reject(err);
+                });
+            })
+
+            return deferred.promise;
+        }
+
         function getUserProfile(authData) {
             var deferred = cmnSvc.$q.defer();
 
             getFirebaseRef('users/' + authData.uid).then(function(rs) {
                 rs.once('value', function(snap) {
                     deferred.resolve(snap.val());
+                }, function(err){
+                    deferred.reject(err);
                 });
             })
 
