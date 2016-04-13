@@ -334,6 +334,8 @@
             getFirebaseRef('users/' + userData.uid).then(function(rs) {
                 rs.set({
                     emailAdd: userData.emailAdd,
+                    createdAt: Date.now(),
+                    updatedAt: Date.now(),
                     fullName: userData.fullName,
                     dateOfBirth: userData.dateOfBirth
                 }, function(error) {
