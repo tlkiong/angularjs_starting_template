@@ -206,7 +206,8 @@
                 '[object Date]': 'date',
                 '[object HTMLDivElement]': 'htmlDivElement',
                 '[object Blob]': 'blob',
-                '[object File]': 'file'
+                '[object File]': 'file',
+                '[object MouseEvent]': 'mouse_event'
             }
 
             return prop[Object.prototype.toString.call(object)];
@@ -304,7 +305,6 @@
                     return false;
                 }
             } else if (type === 'blob') {
-                console.log('blob: ',obj);
                 if(obj.size > 0) {
                     return true;
                 } else {
@@ -317,6 +317,8 @@
                     }
                 }
                 return false;
+            } else if (type === 'mouse_event') {
+                return true;
             } else {
                 throw new Error(obj + ' is not an array, string, boolean or number. This fn only work with those for now');
             }
