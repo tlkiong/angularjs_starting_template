@@ -1,17 +1,17 @@
 {
-  "name": "AngularJS Starting Template",
+  "name": "ng-starting-template",
   "version": "1.0.0",
-  "homepage": "https://github.com/tlkiong/angularjs_dropdown",
+  "homepage": "https://github.com/tlkiong/angularjs_starting_template#readme",
   "authors": [
     "Kiong <kiong90@gmail.com>"
   ],
-  "description": "An AngularJS Starting Template",
+  "description": "AngularJS Starting Template",
   "main": "www/index.html",
   "moduleType": [],
   "keywords": [
-    "AngularJS Starting Template"
+    "ng-starting-template"
   ],
-  "license": "MIT",
+  "license": "",
   "private": true,
   "ignore": [
     "**/.*",
@@ -22,11 +22,11 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.4.7",
-    "angular-animate": "~1.4.7",
-    "angular-ui-router": "~0.2.15",
-    "angular-sanitize": "~1.4.7",
-    "angular-touch": "~1.4.7",
-    "angular-translate": "^2.10.0"
+    "angular": "^1.5.8",
+    "angular-animate": "^1.5.8",
+    "angular-ui-router": "^0.3.1",
+    "angular-sanitize": "^1.5.8",
+    "angular-touch": "^1.5.8",
+    "angular-translate": "^2.12.1"
   }
 }

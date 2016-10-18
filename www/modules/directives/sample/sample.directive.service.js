@@ -1,20 +1,20 @@
 (function() {
-    'use strict';
+  'use strict';
 
-    angular.module('Directives')
-        .service('sampleService', sampleService);
+  angular.module('Directives')
+    .service('sampleService', sampleService);
 
-    sampleService.$inject = [];
+  sampleService.$inject = [];
 
-    function sampleService() {  
-        /* jshint validthis: true */
-        var service = this;
-        /* ======================================== Var ==================================================== */
+  function sampleService() {  
+    /* jshint validthis: true */
+    var service = this;
+    /* ======================================== Var ==================================================== */
 
-        /* ======================================== Services =============================================== */
+    /* ======================================== Services =============================================== */
 
-        /* ======================================== Public Methods ========================================= */
+    /* ======================================== Public Methods ========================================= */
 
-        /* ======================================== Private Methods ======================================== */
-    }
+    /* ======================================== Private Methods ======================================== */
+  }
 })();

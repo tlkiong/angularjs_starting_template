@@ -1,10 +1,11 @@
 (function(){
-	'use strict';
+  'use strict';
 
-	angular.module('Core', [
-			'ngSanitize',
-			'ngTouch',
-			'ngAnimate',
-			'ui.router'
-		]);
+  angular.module('Core', [
+      'ngSanitize',
+      'ngTouch',
+      'ngAnimate',
+      'ui.router',
+      'pascalprecht.translate'
+    ]);
 })();

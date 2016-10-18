@@ -1,28 +1,28 @@
 (function() {
-    'use strict';
-    
-    angular.module('Sample')
-        .controller('sampleController', sampleController);
+  'use strict';
+  
+  angular.module('Sample')
+    .controller('sampleController', sampleController);
 
-    sampleController.$inject = ['commonService', 'sampleService'];
+  sampleController.$inject = ['commonService', 'sampleService'];
 
-    function sampleController(commonService, sampleService) {
-        var vm = this;
+  function sampleController(commonService, sampleService) {
+    var vm = this;
 
-        /* ======================================== Var ==================================================== */
-        vm.misc = {};
+    /* ======================================== Var ==================================================== */
+    vm.misc = {};
 
-        /* ======================================== Services =============================================== */
-        var svc = sampleService;
-        var cmnSvc = commonService;
+    /* ======================================== Services =============================================== */
+    var svc = sampleService;
+    var cmnSvc = commonService;
 
-        /* ======================================== Public Methods ========================================= */
+    /* ======================================== Public Methods ========================================= */
 
-        /* ======================================== Private Methods ======================================== */
-        function init() {
-            
-        }
-
-        init();
+    /* ======================================== Private Methods ======================================== */
+    function init() {
+        
     }
+
+    init();
+  }
 })();

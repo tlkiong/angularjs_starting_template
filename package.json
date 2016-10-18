@@ -1,5 +1,5 @@
 {
-  "name": "AngularJS_Starting_Template",
+  "name": "ng-starting-template",
   "version": "1.0.0",
   "description": "AngularJS Starting Template",
   "main": "index.html",
@@ -14,7 +14,7 @@
     "url": "git+https://github.com/tlkiong/angularjs_starting_template.git"
   },
   "keywords": [
-    "AngularJS Starting Template"
+    "ng-starting-template"
   ],
   "author": "Kiong",
   "license": "MIT",
@@ -23,20 +23,20 @@
   },
   "homepage": "https://github.com/tlkiong/angularjs_starting_template#readme",
   "devDependencies": {
-    "bower": "^1.6.5",
-    "gulp": "^3.9.0",
+    "bower": "^1.7.9",
+    "gulp": "^3.9.1",
     "gulp-angular-filesort": "^1.1.1",
-    "gulp-bower": "0.0.10",
-    "gulp-connect": "^2.2.0",
-    "gulp-inject": "^3.0.0",
-    "gulp-ngdocs": "^0.2.13",
-    "gulp-open": "^1.0.0",
+    "gulp-bower": "0.0.13",
+    "gulp-connect": "^5.0.0",
+    "gulp-inject": "^4.1.0",
+    "gulp-ngdocs": "^0.3.0",
+    "gulp-open": "^2.0.0",
     "gulp-rename": "^1.2.2",
-    "gulp-sass": "^2.2.0",
-    "gulp-watch": "^4.3.5",
-    "http-server": "^0.8.5",
-    "main-bower-files": "^2.9.0",
+    "gulp-sass": "^2.3.2",
+    "gulp-watch": "^4.3.10",
+    "http-server": "^0.9.0",
+    "main-bower-files": "^2.13.1",
     "merge-stream": "^1.0.0",
-    "run-sequence": "^1.1.4"
+    "run-sequence": "^1.2.2"
   }
 }

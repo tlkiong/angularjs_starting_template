@@ -2,7 +2,7 @@
     'use strict';
     
 	angular.module('Sample', [])
-		.config(function ($stateProvider) {
+		.config(/*@ngInject*/function ($stateProvider) {
 			$stateProvider
 				.state('sample', {
                     url: '/',

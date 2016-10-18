@@ -1,29 +1,28 @@
 (function() {
-	'use strict';
-	
-	angular.module('Root')
-		.service('rootService', rootService);
+  'use strict';
+  
+  angular.module('Root')
+    .service('rootService', rootService);
 
-		rootService.$inject = ['commonService'];
-		function rootService(commonService) {
-			var service = this;
+    rootService.$inject = ['commonService'];
+    function rootService(commonService) {
+      var service = this;
 
-			/* ======================================== Var ==================================================== */
-			service.misc = {
-	        	
-	        }
+      /* ======================================== Var ==================================================== */
+      service.misc = {
+        
+      }
 
-	        /* ======================================== Services =============================================== */
-	        var cmnSvc = commonService;
+      /* ======================================== Services =============================================== */
+      var cmnSvc = commonService;
 
-	        /* ======================================== Public Methods ========================================= */
+      /* ======================================== Public Methods ========================================= */
 
-	        /* ======================================== Private Methods ======================================== */
-	        function init() {
-	        	
-	        }
+      /* ======================================== Private Methods ======================================== */
+      function init() {
+        
+      }
 
-	        init();
-		}
-
+      init();
+    }
 })();
