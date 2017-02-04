@@ -8,7 +8,7 @@
 
   function smoothScrollService(commonService) {
     var service = this;
-    service.scrollTo = scrollTo;
+    service.scrollToElementId = scrollToElementId;
 
     /* ======================================== Var ==================================================== */
     service.userData = {
@@ -18,7 +18,7 @@
     /* ======================================== Services =============================================== */
 
     /* ======================================== Public Methods ========================================= */
-    function scrollTo(elementId) {
+    function scrollToElementId(elementId) {
       var startYPos = currentYPosition();
       var targetYPos = targetYPosition(elementId);
       var distance = targetYPos > startYPos ? (targetYPos - startYPos) : (startYPos - targetYPos);
