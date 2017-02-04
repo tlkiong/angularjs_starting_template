@@ -18,9 +18,14 @@
     /* ======================================== Services =============================================== */
 
     /* ======================================== Public Methods ========================================= */
-    function scrollToElementId(elementId) {
+    function scrollToElementId(elementId, isRelativeToWindow) {
       var startYPos = currentYPosition();
-      var targetYPos = targetYPosition(elementId);
+      var targetYPos;
+      if(isRelativeToWindow === true) {
+        targetYPos = targetYPositionToWindow(elementId);
+      } else {
+        targetYPos = targetYPositionToElement(elementId);
+      }
       var distance = targetYPos > startYPos ? (targetYPos - startYPos) : (startYPos - targetYPos);
       if (distance < 100) {
         scrollTo(0, targetYPos);
@@ -36,7 +41,13 @@
       var timer = 0;
       if (targetYPos > startYPos) {
         for (var i = startYPos; i < targetYPos; i += step) {
-          setTimeout("window.scrollTo(0, " + leapY + ")", timer * speed);
+          if(isRelativeToWindow === true) {
+            setTimeout("window.scrollTo(0, " + leapY + ")", timer * speed);
+          } else {
+            setTimeout(function() {
+              document.getElementById(elementId).scrollTop = leapY;
+            }, timer * speed);
+          }
           leapY += step;
           if (leapY > targetYPos) leapY = targetYPos;
           timer++;
@@ -44,7 +55,13 @@
         return;
       }
       for (var i = startYPos; i > targetYPos; i -= step) {
-        setTimeout("window.scrollTo(0, " + leapY + ")", timer * speed);
+        if(isRelativeToWindow === true) {
+          setTimeout("window.scrollTo(0, " + leapY + ")", timer * speed);
+        } else {
+          setTimeout(function() {
+            document.getElementById(elementId).scrollTop = leapY;
+          }, timer * speed);
+        }
         leapY -= step;
         if (leapY < targetYPos) {
           leapY = targetYPos;
@@ -54,7 +71,11 @@
     }
 
     /* ======================================== Private Methods ======================================== */
-    function targetYPosition(elementId) {
+    function targetYPositionToElement(elementId) {
+      return document.getElementById(elementId).scrollHeight;
+    }
+    
+    function targetYPositionToWindow(elementId) {
       var element = document.getElementById(elementId);
       var y = element.offsetTop;
       var node = element;
