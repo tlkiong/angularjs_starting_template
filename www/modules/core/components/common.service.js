@@ -1,4 +1,5 @@
 (function() {
+
   'use strict';
 
   angular.module('Core')
@@ -19,17 +20,139 @@
     service.goToPage = goToPage;
     service.getCurrentState = getCurrentState;
     service.getStateParam = getStateParam;
+    service.getRandomChameleonColorPair = getRandomChameleonColorPair;
+    service.flattenArray = flattenArray;
+    service.isMobileDevice = isMobileDevice;
 
     /* ======================================== Var ==================================================== */
     service.$q = $q;
     service.$timeout = $timeout;
     service.$window = $window;
 
+    var spinner; // This is for spin.js
+
     /* ======================================== Services =============================================== */
     var stateParam = $stateParams;
 
     /* ======================================== Public Methods ========================================= */
-    function getStateParam() {
+    function isMobileDevice(type) {
+      var isAndroid = navigator.userAgent.match(/Android/i);
+      var isIos = navigator.userAgent.match(/iPhone|iPad|iPod/i);
+      var isBlackberry = navigator.userAgent.match(/BlackBerry/i);
+      var isOperaMini = navigator.userAgent.match(/Opera Mini/i);
+      var isWindows = navigator.userAgent.match(/IEMobile/i);
+
+      if(isObjPresent(type)) {
+        type = type.toLowerCase();
+        if (type === 'android') {
+          if (isAndroid) return 'android';
+
+          return false;
+        } else if (type === 'blackberry') {
+          if (isBlackberry) return 'blackberry';
+
+          return false;
+        } else if (type === 'ios') {
+          if (isIos) return 'ios';
+
+          return false;
+        } else if (type === 'opera') {
+          if (isOperaMini) return 'opera';
+
+          return false;
+        } else if (type === 'windows') {
+          if (isWindows) return 'windows';
+
+          return false;
+        }
+      } else {
+        if (isAndroid) {
+          return 'android';
+        } else if (isBlackberry) {
+          return 'blackberry';
+        } else if (isIos) {
+          return 'ios';
+        } else if (isOperaMini) {
+          return 'opera';
+        } else if (isWindows) {
+          return 'windows';
+        } else {
+          return false;
+        }
+      }
+    }
+
+    /**
+     * The below is shamelessly taken from 'http://stackoverflow.com/a/27282907'
+     *  - This is done in a linear time O(n) without recursion
+     *  - Memory complexity is O(1) or O(n) if mutable param is set to false
+     */
+    function flattenArray(array, mutable) {
+      var toString = Object.prototype.toString;
+      var arrayTypeStr = '[object Array]';
+
+      var result = [];
+      var nodes = (mutable && array) || array.slice();
+      var node;
+
+      if (!array.length) {
+        return result;
+      }
+
+      node = nodes.pop();
+
+      do {
+        if (toString.call(node) === arrayTypeStr) {
+          nodes.push.apply(nodes, node);
+        } else {
+          result.push(node);
+        }
+      } while (nodes.length && (node = nodes.pop()) !== undefined);
+
+      result.reverse(); // we reverse result to restore the original order
+      return result;
+    }
+
+    function getRandomChameleonColorPair() {
+      // This colour pair is taken from => https://camo.githubusercontent.com/747d1a53ed34124c5ab7fb9007f4ccda8da37398/687474703a2f2f692e696d6775722e636f6d2f776b4747576b4e2e706e67
+      // From the repo at https://github.com/ViccAlexander/Chameleon
+      var colourPair = [
+        ['#E74C3C', '#C0392B'], // Flat red
+        ['#E67E22', '#D35400'], // Flat orange
+        ['#FFCD02', '#FFA800'], // Flat yellow
+        ['#f0deb4', '#d5c295'], // Flat sand
+        ['#34495e', '#2c3e50'], // Flat navy blue
+        ['#2b2b2b', '#262626'], // Flat black
+        ['#9b59b6', '#8e44ad'], // Flat magenta
+        ['#3a6f81', '#356272'], // Flat teal
+        ['#3498db', '#2980b9'], // Flat sky blue
+        ['#2ecc71', '#27ae60'], // Flat green
+        ['#1abc9c', '#16a085'], // Flat mint
+        ['#ecf0f1', '#bdc3c7'], // Flat white
+        ['#95a5a6', '#7f8c8d'], // Flat grey
+        ['#345f41', '#2d5036'], // Flat forest green
+        ['#745ec5', '#5b48a2'], // Flat purple
+        ['#5e4534', '#503b2c'], // Flat brown
+        ['#5e345e', '#4f2b4f'], // Flat plum
+        ['#ef717a', '#d95459'], // Flat watermelon
+        ['#a5c63b', '#8eb021'], // Flat lime
+        ['#f47cc3', '#d45c9e'], // Flat pink
+        ['#79302a', '#662621'], // Flat maroon
+        ['#a38671', '#8e725e'], // Flat coffee
+        ['#b8c9f1', '#99abd5'], // Flat powder blue
+        ['#5065a1', '#394c81']  // Flat blue
+      ];
+
+      colourPair = flattenArray(colourPair);
+
+      return colourPair[Math.floor(Math.random() * (colourPair.length - 1))];
+    }
+
+    function getStateParam(hasUrlParam) {
+      if(isObjPresent(hasUrlParam)) {
+        return stateParam;
+      }
+      
       return stateParam.data;
     }
 
@@ -37,7 +160,7 @@
       return $state.current;
     }
 
-    function goToPage(stateName, hasRoot, toReload, stateParam) {
+    function goToPage(stateName, hasRoot, toReload, stateParam, urlParams) {
       var stateObj = {};
 
       if (isObjPresent(stateName)) {
@@ -45,8 +168,19 @@
           stateName = 'root.' + stateName;
         }
 
-        if (isObjPresent(stateParam)) {
-          stateObj = $state.go(stateName, { data: stateParam });
+        if (isObjPresent(stateParam) || isObjPresent(urlParams)) {
+          var stateNUrlParam;
+
+          if (isObjPresent(urlParams)) {
+            urlParams['data'] = stateParam;
+            stateNUrlParam = urlParams
+          } else {
+            stateNUrlParam = {
+              data: stateParam
+            }
+          }
+
+          stateObj = $state.go(stateName, stateNUrlParam);
         } else {
           stateObj = $state.go(stateName);
         }
@@ -59,10 +193,10 @@
       return stateObj.$$state;
     }
 
-    function loadingMode(isLoading, containerIdToAddThisLoader) {
+    function loadingMode(isLoading, containerIdToAddThisLoader, customLoader) {
       if(isLoading === true || isLoading === false) {
         if(isLoading == true) {
-          if(isObjPresent(containerIdToAddThisLoader) == true) {
+          if(isObjPresent(containerIdToAddThisLoader)) {
             if(!isObjPresent(document.getElementById('loadingContainer'))) {
               var loadingHtml = angular.element('<div id="loadingContainer"><div id="spinner"></div></div>');
               var dom = angular.element(document.getElementById(containerIdToAddThisLoader));
@@ -76,7 +210,7 @@
                 radius: 50, // The radius of the inner circle
                 scale: 1, // Scales overall size of the spinner
                 corners: 1, // Corner roundness (0..1)
-                color: '#FFF', // #rgb or #rrggbb or array of colors
+                color: '#000', // #rgb or #rrggbb or array of colors
                 opacity: 0, // Opacity of the lines
                 rotate: 0, // The rotation offset
                 direction: 1, // 1: clockwise, -1: counterclockwise
@@ -132,6 +266,24 @@
             angular.element(document.getElementById('loadingContainer')).remove();
           }
         }
+      } else if (customLoader === true || customLoader === false) {
+        if(customLoader === true) {
+          var checkLoadingEle = document.getElementById('loadingContainer');
+          if(isObjPresent(checkLoadingEle)) {
+            angular.element(checkLoadingEle).remove();
+          }
+          var loadingHtml = angular.element('<div id="loadingContainer"><img src="/resources/img/customLoader.gif" ></div>');
+          if(isObjPresent(containerIdToAddThisLoader)) {
+            var dom = angular.element(document.getElementById(containerIdToAddThisLoader));
+            dom.css("position", "relative"); // This has to be double "" as '' does not work.
+            dom.append(loadingHtml);
+          } else {
+            var body = $document.find('body').eq(0);
+            body.append(loadingHtml);
+          }
+        } else {
+          angular.element(document.getElementById('loadingContainer')).remove();
+        }
       } else {
         throw new Error ('Parameter can only be TRUE or FALSE');
       }
@@ -148,7 +300,7 @@
         return num.toString()
           .split('')
           .map(function(char, index) {
-              return (index == 0) ? char : '0';
+            return (index == 0) ? char : '0';
           })
           .join('') - 0; // -0 Will convert the entire string to a number
       } else {
@@ -187,9 +339,9 @@
       var d2 = Math.random() * 0xffffffff | 0;
       var d3 = Math.random() * 0xffffffff | 0;
       return lut[d0 & 0xff] + lut[d0 >> 8 & 0xff] + lut[d0 >> 16 & 0xff] + lut[d0 >> 24 & 0xff] + '-' +
-          lut[d1 & 0xff] + lut[d1 >> 8 & 0xff] + '-' + lut[d1 >> 16 & 0x0f | 0x40] + lut[d1 >> 24 & 0xff] + '-' +
-          lut[d2 & 0x3f | 0x80] + lut[d2 >> 8 & 0xff] + '-' + lut[d2 >> 16 & 0xff] + lut[d2 >> 24 & 0xff] +
-          lut[d3 & 0xff] + lut[d3 >> 8 & 0xff] + lut[d3 >> 16 & 0xff] + lut[d3 >> 24 & 0xff];
+        lut[d1 & 0xff] + lut[d1 >> 8 & 0xff] + '-' + lut[d1 >> 16 & 0x0f | 0x40] + lut[d1 >> 24 & 0xff] + '-' +
+        lut[d2 & 0x3f | 0x80] + lut[d2 >> 8 & 0xff] + '-' + lut[d2 >> 16 & 0xff] + lut[d2 >> 24 & 0xff] +
+        lut[d3 & 0xff] + lut[d3 >> 8 & 0xff] + lut[d3 >> 16 & 0xff] + lut[d3 >> 24 & 0xff];
     }
 
     function getObjType(object) { // Would really appreciate a unit test to test all for this as manual testing didn't cover everything
