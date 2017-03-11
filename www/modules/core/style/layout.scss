@@ -25,8 +25,12 @@
   flex-flow: column wrap;
 }
 
-.reverse {
-  flex-direction: reverse;
+.rowReverse {
+  flex-direction: row-reverse;
+}
+
+.colReverse {
+  flex-direction: column-reverse;
 }
 
 .flexExpand {
