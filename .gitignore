@@ -3,3 +3,4 @@ www/lib/
 www/index.html
 **/*.css
 .DS_Store
+Thumbs.db
