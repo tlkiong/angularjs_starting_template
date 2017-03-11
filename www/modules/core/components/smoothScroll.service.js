@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('Core')
-    .service('smoothScrollService', smoothScrollService);
+      .service('smoothScrollService', smoothScrollService);
 
   smoothScrollService.$inject = ['commonService'];
 
@@ -15,17 +15,24 @@
 
     };
 
+    var docEle;
+
     /* ======================================== Services =============================================== */
 
     /* ======================================== Public Methods ========================================= */
     function scrollToElementId(elementId, isRelativeToWindow) {
+      docEle = document.getElementById(elementId);
+      if(docEle === null || docEle === undefined) {
+        return;
+      }
       var startYPos = currentYPosition();
       var targetYPos;
       if(isRelativeToWindow === true) {
-        targetYPos = targetYPositionToWindow(elementId);
+        targetYPos = targetYPositionToWindow();
       } else {
-        targetYPos = targetYPositionToElement(elementId);
+        targetYPos = targetYPositionToElement();
       }
+      
       var distance = targetYPos > startYPos ? (targetYPos - startYPos) : (startYPos - targetYPos);
       if (distance < 100) {
         scrollTo(0, targetYPos);
@@ -45,9 +52,10 @@
             setTimeout("window.scrollTo(0, " + leapY + ")", timer * speed);
           } else {
             setTimeout(function() {
-              document.getElementById(elementId).scrollTop = leapY;
+              docEle.scrollTop = leapY;
             }, timer * speed);
           }
+
           leapY += step;
           if (leapY > targetYPos) leapY = targetYPos;
           timer++;
@@ -59,7 +67,7 @@
           setTimeout("window.scrollTo(0, " + leapY + ")", timer * speed);
         } else {
           setTimeout(function() {
-            document.getElementById(elementId).scrollTop = leapY;
+            docEle.scrollTop = leapY;
           }, timer * speed);
         }
         leapY -= step;
@@ -71,14 +79,13 @@
     }
 
     /* ======================================== Private Methods ======================================== */
-    function targetYPositionToElement(elementId) {
-      return document.getElementById(elementId).scrollHeight;
+    function targetYPositionToElement() {
+      return docEle.scrollHeight;
     }
-    
-    function targetYPositionToWindow(elementId) {
-      var element = document.getElementById(elementId);
-      var y = element.offsetTop;
-      var node = element;
+
+    function targetYPositionToWindow() {
+      var y = docEle.offsetTop;
+      var node = docEle;
       while (node.offsetParent && (node.offsetParent != document.body)) {
         node = node.offsetParent;
         y += node.offsetTop;
