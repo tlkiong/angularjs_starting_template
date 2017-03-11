@@ -165,7 +165,11 @@
 
       if (isObjPresent(stateName)) {
         if (isObjPresent(hasRoot)) {
-          stateName = 'root.' + stateName;
+          if(hasRoot === true) {
+            stateName = 'root.' + stateName;
+          } else if (getObjType(hasRoot) === 'string') {
+            stateName = hasRoot + '.' + stateName;
+          }
         }
 
         if (isObjPresent(stateParam) || isObjPresent(urlParams)) {
