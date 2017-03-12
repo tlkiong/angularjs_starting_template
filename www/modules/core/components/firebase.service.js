@@ -218,7 +218,8 @@
           role: userData.role,
           img: userData.img,
           createdAt: Date.now(),
-          updatedAt: Date.now()
+          updatedAt: Date.now(),
+          uid: userData.uid
         })
         .then(function(rs) {
           deferred.resolve(userData.uid);
