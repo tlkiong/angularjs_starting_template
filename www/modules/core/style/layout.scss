@@ -6,30 +6,40 @@
 
 // =============================================== Grid System =============================================
 .flexAcross {
+  display: -webkit-flex;
+  -webkit-flex-flow: row nowrap;
   display: flex;
   flex-flow: row nowrap;
 }
 
 .flexDown {
+  display: -webkit-flex;
+  -webkit-flex-flow: column nowrap;
   display: flex;
   flex-flow: column nowrap;
 }
 
 .flowAcross {
+  display: -webkit-flex;
+  -webkit-flex-flow: row wrap;
   display: flex;
   flex-flow: row wrap;
 }
 
 .flowDown {
+  display: -webkit-flex;
+  -webkit-flex-flow: column wrap;
   display: flex;
   flex-flow: column wrap;
 }
 
 .rowReverse {
+  -webkit-flex-direction: row-reverse;
   flex-direction: row-reverse;
 }
 
 .colReverse {
+  -webkit-flex-direction: column-reverse;
   flex-direction: column-reverse;
 }
 
