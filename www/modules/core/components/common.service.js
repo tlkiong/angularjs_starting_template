@@ -492,7 +492,13 @@
         '[object KeyboardEvent]': 'keyboard_event'
       }
 
-      return prop[Object.prototype.toString.call(object)];
+      var objType = prop[Object.prototype.toString.call(object)];
+
+      if(objType == 'number' && object.toString() == 'NaN') {
+        return 'NaN';
+      } else {
+        return objType;
+      }
     }
 
     /**
@@ -603,6 +609,8 @@
         return true;
       } else if (type === 'keyboard_event') {
         return true;
+      } else if (type === 'NaN') {
+        return false;
       } else {
         throw new Error(obj + ' is not an array, string, boolean or number. This fn only work with those for now');
       }
