@@ -23,6 +23,9 @@
     service.getRandomChameleonColorPair = getRandomChameleonColorPair;
     service.flattenArray = flattenArray;
     service.isMobileDevice = isMobileDevice;
+    service.removeFromLocalStorage = removeFromLocalStorage;
+    service.getFromLocalStorage = getFromLocalStorage;
+    service.saveToLocalStorage = saveToLocalStorage;
 
     /* Ionic Related */
     service.ionicPopUp = ionicPopUp;
@@ -161,6 +164,18 @@
     }
     /* ---------------------------------------- End: Ionic Related ---------------------------------------- */
 
+    function removeFromLocalStorage(name) {
+      return localStorage.removeItem(name);
+    }
+
+    function getFromLocalStorage(name) {
+      return localStorage.getItem(name);
+    }
+
+    function saveToLocalStorage(name, obj) {
+      return localStorage.setItem(name, JSON.stringify(obj));
+    }
+    
     function isMobileDevice(type) {
       var isAndroid = navigator.userAgent.match(/Android/i);
       var isIos = navigator.userAgent.match(/iPhone|iPad|iPod/i);
