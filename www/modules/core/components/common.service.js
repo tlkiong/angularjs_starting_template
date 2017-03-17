@@ -541,19 +541,14 @@
     function isObjPresent(obj) {
       var type = getObjType(obj);
       if (type === 'object') {
-        // The code below uses the Object.keys() function from ECMA Script 5+ specification. However, to ensure it can run for < ECMA Script 5, this is commented out
-        // var objLength = Object.keys(obj).length;
-        // if(objLength > 0) {
-        //     return true;
-        // } else if (objLength == 0) {
-        //     return false;
-        // } else {
-        //     throw new Error(obj + ' comes to object if-else but the length is neither 0 or more than 0');
-        // }
-
+        // This will traverse the entire object keys & check the values.
+        // If even one of the values isPresent (the type & value is defined in this function itself)
+        //    then it will assume the obj IS present
         for (var key in obj) {
           if (obj.hasOwnProperty(key)) {
-            return true;
+            if(isObjPresent(obj[key]) === true) {
+              return true;
+            }
           }
         }
         return false;
