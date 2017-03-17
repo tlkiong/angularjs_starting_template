@@ -169,7 +169,7 @@
     }
 
     function getFromLocalStorage(name) {
-      return localStorage.getItem(name);
+      return JSON.parse(localStorage.getItem(name));
     }
 
     function saveToLocalStorage(name, obj) {
