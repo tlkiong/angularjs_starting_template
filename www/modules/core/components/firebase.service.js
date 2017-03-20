@@ -17,6 +17,7 @@
     service.getUserProfile = getUserProfile;
     // service.getCities = getCities;
     // service.listenToGetAddedChannelMessages = listenToGetAddedChannelMessages;
+    // service.deleteCompetition = deleteCompetition;
 
     /* ======================================== Var ==================================================== */
     var ENV = 'prod'; // Set the env here. Options are the keys in 'fbaseEnvConfig' below.
@@ -56,6 +57,27 @@
     var cmnSvc = commonService;
 
     /* ======================================== Public Methods ========================================= */
+    function deleteCompetition(userId, competitionId) {
+      var deferred = cmnSvc.$q.defer();
+      
+      fbaseDb.ref('/users/' + userId + '/competitionList/' + competitionId).remove()
+        .then(function(snapshot) {
+          fbaseDb.ref('/competitionList/' + competitionId).remove()
+            .then(function(snapshot1) {
+              fbaseDb.ref('/competition/' + competitionId).remove()
+                .then(function() {
+                  deferred.resolve(snapshot1);
+                })
+            }, function(er1) {
+              deferred.reject(er1);
+            });
+        }, function(err) {
+          deferred.reject(err);
+        })
+
+      return deferred.promise;
+    }
+
     /* To use this:
     *      fbaseSvc.listenToGetAddedChannelMessages(vm.misc.channelId,  function(snapshot, prevChildKey) {
     *        var val = snapshot.val();
