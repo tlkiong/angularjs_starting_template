@@ -19,6 +19,7 @@
     service.loadingMode = loadingMode;
     service.goToPage = goToPage;
     service.getCurrentState = getCurrentState;
+    service.getAllStates = getAllStates;
     service.getStateParam = getStateParam;
     service.getRandomChameleonColorPair = getRandomChameleonColorPair;
     service.flattenArray = flattenArray;
@@ -295,6 +296,10 @@
       }
       
       return stateParam.data;
+    }
+
+    function getAllStates() {
+      return $state.get();
     }
 
     function getCurrentState() {
