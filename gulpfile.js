@@ -18,6 +18,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var ngAnnotate = require('gulp-ng-annotate');
 var bowerFiles = require('bower-files')();
+var pump = require('pump');
 
 // ============== Convert this to a gulp task to create a gulp task - input, doc's title ==============
 
@@ -139,7 +140,7 @@ gulp.task('generateDevView', function() {
     return merge(compileModuleSass, createIndexHtml);
 });
 
-gulp.task('generateProdView', function() {
+gulp.task('generateProdView', function(cb) {
     // createIndexHtml stream
     var createIndexHtml = gulp.src('./www/main-view/pre-index.html')
         .pipe(rename('index.html'))
@@ -147,38 +148,57 @@ gulp.task('generateProdView', function() {
     // End of createIndexHtml stream
 
     // compileModuleSass stream
-    var compileModuleSass = gulp.src('./www/modules/**/*.scss')
-        .pipe(sass().on('error', sass.logError))
-        .pipe(minifyCss({
-          keepSpecialComments: 0
-        }))
-        .pipe(concat('app.min.css'))
-        .pipe(gulp.dest('./dist/'));
+    var compileModuleSass = pump([
+        gulp.src('./www/modules/**/*.scss'),
+        sass().on('error', sass.logError),
+        minifyCss({
+          keepSpecialComments: 0,
+          processImport: false
+        }),
+        concat('app.min.css'),
+        gulp.dest('./dist/')
+    ]);
     // End of compileModuleSass stream
     
-    var compileBowerCss = gulp.src(bowerFiles.ext('css').files)
-        .pipe(minifyCss({
-          keepSpecialComments: 0
-        }))
-        .pipe(concat('bower.min.css'))
-        .pipe(gulp.dest('./dist/'));
-
-    var compileBowerJs = gulp.src(bowerFiles.ext('js').files)
-        .pipe(concat('bower.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest('./dist/'));
-
-    var compileModuleAngular = gulp.src(['./www/modules/**/*.js'])
-        .pipe(angularFilesort())
-        .pipe(concat('app.min.js'))
-        .pipe(ngAnnotate())
-        .pipe(uglify())
-        .pipe(gulp.dest('./dist/'));
+    var compileModuleAngular = pump([
+      gulp.src(['./www/modules/**/*.js']),
+      angularFilesort(),
+      concat('app.min.js'),
+      ngAnnotate(),
+      uglify(),
+      gulp.dest('./dist/')
+    ])
 
     var moveAllViews = gulp.src(['./www/modules/**/*.html'])
         .pipe(gulp.dest('./dist/modules/'))
 
-    return merge(compileModuleSass, compileBowerCss, compileBowerJs, compileModuleAngular, moveAllViews, createIndexHtml);
+
+    var moveAllResources = gulp.src(['./www/resources/**/*'], {
+            base: './www/resources'
+        })
+        .pipe(gulp.dest('./dist/resources'))
+
+    var compileBowerJs = pump([
+      gulp.src(bowerFiles.ext('js').files),
+      concat('bower.min.js'),
+      uglify(),
+      gulp.dest('./dist/')
+    ]);
+
+    if(bowerFiles.ext('css').files.length > 0) {
+        var compileBowerCss = pump([
+            gulp.src(bowerFiles.ext('css').files),
+            minifyCss({
+              keepSpecialComments: 0
+            }),
+            concat('bower.min.css'),
+            gulp.dest('./dist/')
+        ])
+
+        return merge(compileModuleSass, compileBowerCss, compileBowerJs, compileModuleAngular, moveAllViews, moveAllResources, createIndexHtml);
+    }
+
+    return merge(compileModuleSass, compileBowerJs, compileModuleAngular, moveAllViews, moveAllResources, createIndexHtml);
 });
 
 gulp.task('inject-dev-bower', function() {
