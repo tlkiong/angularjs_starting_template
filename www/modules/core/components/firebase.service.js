@@ -9,7 +9,7 @@
   // To use this service, add firebase as a npm module / bower module
   function firebaseService(commonService) {
     var service = this;
-    service.offAllFirebaseListener = offAllFirebaseListener;
+    service.offFirebaseListener = offFirebaseListener;
     service.createFbaseUserWithEmailAndPassword = createFbaseUserWithEmailAndPassword;
     service.signInWithEmailAndPassword = signInWithEmailAndPassword;
     service.signMeOut = signMeOut;
@@ -218,10 +218,20 @@
       return deferred.promise;
     }
 
-    function offAllFirebaseListener() {
-      while(allFbaseListener.length > 0) {
-        var ele = allFbaseListener.pop();
-        ele.ref.off(ele.eventType, ele.callbackFn);
+    function offFirebaseListener(fbaseRef) {
+      if(cmnSvc.isObjPresent(fbaseRef)) {
+        for(var i=0, j=allFbaseListener.length; i<j; i++) {
+          if(allFbaseListener[i].ref.isEqual(fbaseRef)) {
+            allFbaseListener[i].ref.off(allFbaseListener[i].eventType, allFbaseListener[i].callbackFn);
+            allFbaseListener.splice(i, 1);
+            break;
+          }
+        }
+      } else {
+        while(allFbaseListener.length > 0) {
+          var ele = allFbaseListener.pop();
+          ele.ref.off(ele.eventType, ele.callbackFn);
+        }
       }
     }
 
