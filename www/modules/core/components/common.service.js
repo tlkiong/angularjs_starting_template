@@ -53,7 +53,7 @@
     /* End: Ionic Related */
 
     /* ======================================== Public Methods ========================================= */
-    
+
     /* ---------------------------------------- Ionic Related ---------------------------------------- */
     function hideIonicLoading() {
       ionicLoadingSvc.hide();
@@ -176,7 +176,7 @@
     function saveToLocalStorage(name, obj) {
       return localStorage.setItem(name, JSON.stringify(obj));
     }
-    
+
     function isMobileDevice(type) {
       var isAndroid = navigator.userAgent.match(/Android/i);
       var isIos = navigator.userAgent.match(/iPhone|iPad|iPod/i);
@@ -294,7 +294,7 @@
       if(isObjPresent(hasUrlParam)) {
         return stateParam;
       }
-      
+
       return stateParam.data;
     }
 
@@ -352,7 +352,7 @@
               var dom = angular.element(document.getElementById(containerIdToAddThisLoader));
               dom.css("position", "relative"); // This has to be double "" as '' does not work.
               dom.append(loadingHtml);
-              
+
               var opts = {
                 lines: 13, // The number of lines to draw
                 length: 28, // The length of each line
@@ -383,7 +383,7 @@
               var loadingHtml = '<div id="loadingContainer"><div id="spinner"></div></div>';
               var body = $document.find('body').eq(0);
               body.append(loadingHtml);
-              
+
               var opts = {
                 lines: 13, // The number of lines to draw
                 length: 28, // The length of each line
@@ -474,7 +474,7 @@
      * Fast UUID generator, RFC4122 version 4 compliant.
      *
      * Don't understand how it works? Please visit the link as shown below. Its not meant to be readable as much as its meant to be fast
-     * 
+     *
      * @author Jeff Ward (jcward.com).
      * @license MIT license
      * @link http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/21963136#21963136
@@ -536,7 +536,7 @@
      *         - function () { }
      *         - function(param1, param2, param3) { }
      *     A non empty function is:
-     *         - function() { console.log(); } 
+     *         - function() { console.log(); }
      *     An invalid date will return false for this function
      *     A valid date will return true for this function
      *     This will just check if its empty or not and not check if its syntatically correct or not
@@ -663,7 +663,7 @@
           monthInString = 'Dec';
         }
 
-        return new Date(Number(dateTimeInEpoch)).getDay() + ' ' + monthInString + ' ' + new Date(Number(dateTimeInEpoch)).getFullYear();
+        return new Date(Number(dateTimeInEpoch)).getDate() + ' ' + monthInString + ' ' + new Date(Number(dateTimeInEpoch)).getFullYear();
       } catch (e) {
         throw new Error('date time is not in number');
       }
