@@ -1,0 +1,78 @@
+@import "./globals/all";
+
+form {
+  .inputContainer {
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 1em;
+    flex-shrink: 0;
+    &:first-child {
+      margin-top: 0;
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
+    .inputLbl {
+      font-weight: bold;
+      text-transform: capitalize;
+      margin-bottom: 0.5em;
+      flex-shrink: 0;
+    }
+    input {
+      border: 1px solid $darkOrange !important;
+      padding: 0 14px;
+    }
+    .checkboxContainer {
+      padding: 0 14px;
+      margin-bottom: 0.5em;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      .checkbox {
+        border-radius: 50%;
+        height: 25px;
+        width: 25px;
+        border: 1px solid $grey;
+        padding: 0 !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .isSelected {
+          border-radius: 50%;
+          height: 15px;
+          width: 15px;
+          background-color: $darkOrange;
+        }
+      }
+      .checkboxLbl {
+        margin-left: 10px;
+        text-transform: capitalize;
+      }
+    }
+    textarea {
+      border: 1px solid $darkOrange !important;
+      padding: 14px;
+      flex: 1 0 auto;
+      resize: none;
+    }
+  }
+  .fullHeight {
+    flex-grow: 1;
+  }
+  input[type="submit"] {
+    border-width: 0 !important;
+    border-style: none !important;
+    border-color: white !important;
+    border-image: none !important;
+  }
+}
+
+.searchInputContainer {
+  label {
+    width: 100%;
+    border: none;
+  }
+}

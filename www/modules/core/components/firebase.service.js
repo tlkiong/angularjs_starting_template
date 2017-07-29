@@ -9,41 +9,32 @@
   // To use this service, add firebase as a npm module / bower module
   function firebaseService(commonService) {
     var service = this;
-    service.offFirebaseListener = offFirebaseListener;
+    service.offAllFirebaseListener = offAllFirebaseListener;
     service.createFbaseUserWithEmailAndPassword = createFbaseUserWithEmailAndPassword;
     service.signInWithEmailAndPassword = signInWithEmailAndPassword;
     service.signMeOut = signMeOut;
     service.getCurrentSignedInUser = getCurrentSignedInUser;
     service.getUserProfile = getUserProfile;
-    // service.getCities = getCities;
-    // service.listenToGetAddedChannelMessages = listenToGetAddedChannelMessages;
-    // service.deleteCompetition = deleteCompetition;
+    service.listenToGetCompetitionListChanges = listenToGetCompetitionListChanges;
+    service.getCompetitionData = getCompetitionData;
+    service.listenToGetDeletedCompetition = listenToGetDeletedCompetition;
+    service.listenToGetCompetitionDataChanges = listenToGetCompetitionDataChanges;
+    service.getHeatListData = getHeatListData;
+    service.listenToGetHeatListChanges = listenToGetHeatListChanges;
+    service.getPlacementListData = getPlacementListData;
+    service.listenToGetPlacementListChanges = listenToGetPlacementListChanges;
+    service.getProgramData = getProgramData;
+    service.listenToGetProgramChanges = listenToGetProgramChanges;
 
     /* ======================================== Var ==================================================== */
-    var ENV = 'prod'; // Set the env here. Options are the keys in 'fbaseEnvConfig' below.
-
-    var fbaseEnvConfig = {
-      dev: {
-        apiKey: '',
-        authDomain: '',
-        databaseURL: '',
-        storageBucket: '',
-        messagingSenderId: ''
-      },
-      prod: {
-        apiKey: '',
-        authDomain: '',
-        databaseURL: '',
-        storageBucket: '',
-        messagingSenderId: ''
-      }
-    }
-
     var fbaseConfig = {
-      // apiKey: '',
-      // authDomain: '',
-      // databaseURL: ''
+      apiKey: '',
+      authDomain: '',
+      databaseURL: '',
+      storageBucket: '',
+      messagingSenderId: ''
     };
+
     var fbaseDb; // This is under 'init' function
     var allFbaseListener = [
       // {
@@ -57,20 +48,28 @@
     var cmnSvc = commonService;
 
     /* ======================================== Public Methods ========================================= */
-    function deleteCompetition(userId, competitionId) {
+    function listenToGetProgramChanges(competitionId, callbackFn) {
+      var fbaseRef = fbaseDb.ref('/competition/' + competitionId + '/placement/status');
+      var fbaseEventType = 'value';
+
+      fbaseRef.on(fbaseEventType, callbackFn);
+
+      allFbaseListener.push({
+        ref: fbaseRef,
+        eventType: fbaseEventType,
+        callbackFn: callbackFn
+      });
+
+      return fbaseRef;
+    }
+
+    function getProgramData(competitionId) {
       var deferred = cmnSvc.$q.defer();
-      
-      fbaseDb.ref('/users/' + userId + '/competitionList/' + competitionId).remove()
+
+      fbaseDb.ref('/competition/' + competitionId + '/program').once('value')
         .then(function(snapshot) {
-          fbaseDb.ref('/competitionList/' + competitionId).remove()
-            .then(function(snapshot1) {
-              fbaseDb.ref('/competition/' + competitionId).remove()
-                .then(function() {
-                  deferred.resolve(snapshot1);
-                })
-            }, function(er1) {
-              deferred.reject(er1);
-            });
+          var val = snapshot.val();
+          deferred.resolve(val);
         }, function(err) {
           deferred.reject(err);
         })
@@ -78,15 +77,69 @@
       return deferred.promise;
     }
 
-    /* To use this:
-    *      fbaseSvc.listenToGetAddedChannelMessages(vm.misc.channelId,  function(snapshot, prevChildKey) {
-    *        var val = snapshot.val();
-    *     });
-    */
-    function listenToGetAddedChannelMessages(channelId, callbackFn) {
-      var fbaseRef = fbaseDb.ref('messages/' + channelId);
-      var fbaseEventType = 'child_added';
-      
+    function listenToGetPlacementListChanges(competitionId, callbackFn) {
+      var fbaseRef = fbaseDb.ref('/competition/' + competitionId + '/placement/status');
+      var fbaseEventType = 'value';
+
+      fbaseRef.on(fbaseEventType, callbackFn);
+
+      allFbaseListener.push({
+        ref: fbaseRef,
+        eventType: fbaseEventType,
+        callbackFn: callbackFn
+      });
+
+      return fbaseRef;
+    }
+
+    function getPlacementListData(competitionId) {
+      var deferred = cmnSvc.$q.defer();
+
+      fbaseDb.ref('/competition/' + competitionId + '/placement').once('value')
+        .then(function(snapshot) {
+          var val = snapshot.val();
+          deferred.resolve(val);
+        }, function(err) {
+          deferred.reject(err);
+        })
+
+      return deferred.promise;
+    }
+
+    function listenToGetHeatListChanges(competitionId, callbackFn) {
+      var fbaseRef = fbaseDb.ref('/competition/' + competitionId + '/heatList/status');
+      var fbaseEventType = 'value';
+
+      fbaseRef.on(fbaseEventType, callbackFn);
+
+      allFbaseListener.push({
+        ref: fbaseRef,
+        eventType: fbaseEventType,
+        callbackFn: callbackFn
+      });
+
+      return fbaseRef;
+    }
+
+    function getHeatListData(competitionId) {
+      var deferred = cmnSvc.$q.defer();
+
+      fbaseDb.ref('/competition/' + competitionId + '/heatList').once('value')
+        .then(function(snapshot) {
+          var val = snapshot.val();
+          deferred.resolve(val);
+        }, function(err) {
+          deferred.reject(err);
+        })
+
+      return deferred.promise;
+    }
+
+    function listenToGetCompetitionDataChanges(callbackFn, compId) {
+      var refUrl = cmnSvc.isObjPresent(compId) ? ('/competitionList/' + compId) : '/competitionList/';
+      var fbaseRef = fbaseDb.ref(refUrl);
+      var fbaseEventType = 'value';
+
       fbaseRef.on(fbaseEventType, callbackFn);
 
       allFbaseListener.push({
@@ -96,10 +149,24 @@
       });
     }
 
-    function getCities() {
+    function listenToGetDeletedCompetition (callbackFn, compId) {
+      var refUrl = cmnSvc.isObjPresent(compId) ? ('/competitionList/' + compId) : '/competitionList/';
+      var fbaseRef = fbaseDb.ref(refUrl);
+      var fbaseEventType = 'child_removed';
+
+      fbaseRef.on(fbaseEventType, callbackFn);
+
+      allFbaseListener.push({
+        ref: fbaseRef,
+        eventType: fbaseEventType,
+        callbackFn: callbackFn
+      });
+    }
+
+    function getCompetitionData(competitionId) {
       var deferred = cmnSvc.$q.defer();
 
-      fbaseDb.ref('cities/').once('value')
+      fbaseDb.ref('/competitionList/' + competitionId).once('value')
         .then(function(snapshot) {
           var val = snapshot.val();
           deferred.resolve(val);
@@ -108,6 +175,21 @@
         })
 
       return deferred.promise;
+    }
+
+    function listenToGetCompetitionListChanges(callbackFn) {
+      var fbaseRef = fbaseDb.ref('competitionList/');
+      var fbaseEventType = 'value';
+
+      fbaseRef.on(fbaseEventType, callbackFn);
+
+      allFbaseListener.push({
+        ref: fbaseRef,
+        eventType: fbaseEventType,
+        callbackFn: callbackFn
+      });
+
+      return fbaseRef;
     }
 
     // TODO: UD of user profile
@@ -218,10 +300,10 @@
       return deferred.promise;
     }
 
-    function offFirebaseListener(fbaseRef) {
-      if(cmnSvc.isObjPresent(fbaseRef)) {
+    function offAllFirebaseListener(ref) {
+      if(cmnSvc.isObjPresent(ref)) {
         for(var i=0, j=allFbaseListener.length; i<j; i++) {
-          if(allFbaseListener[i].ref.isEqual(fbaseRef)) {
+          if(allFbaseListener[i].ref == ref) {
             allFbaseListener[i].ref.off(allFbaseListener[i].eventType, allFbaseListener[i].callbackFn);
             allFbaseListener.splice(i, 1);
             break;
@@ -250,8 +332,7 @@
           role: userData.role,
           img: userData.img,
           createdAt: Date.now(),
-          updatedAt: Date.now(),
-          uid: userData.uid
+          updatedAt: Date.now()
         })
         .then(function(rs) {
           deferred.resolve(userData.uid);
@@ -263,7 +344,7 @@
     }
 
     function init() {
-      fbaseConfig = fbaseEnvConfig[ENV];
+      fbaseConfig = AppSettings.firebaseConfig;
 
       if(!cmnSvc.isObjPresent(fbaseConfig)) {
         throw new Error('Firebase config CANNOT be empty.');

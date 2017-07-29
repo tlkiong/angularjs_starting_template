@@ -1,0 +1,28 @@
+<section class="content loginContainer flexDown">
+  <div class="logoContainer">
+    <div class="iconContainer">
+      <svg class="icomoon icon-logo">
+        <use xlink:href="#icon-logo"></use>
+      </svg>
+    </div>
+  </div>
+  <div class="welcomeMsg">welcome to fa live</div>
+  <form class="loginForm" novalidate>
+    <label>
+      <div class="lbl">email</div>
+      <input type="email" name="emailAdd" ng-model="vm.userData.emailAdd">
+    </label>
+    <label>
+      <div class="lblContainer flexAcross">
+        <div class="lbl">password</div>
+        <div class="forgotPwdLbl" ng-click="vm.forgotPwd()">forgot password</div>
+      </div>
+      <input type="password" name="emailAdd" ng-model="vm.userData.password">
+    </label>
+  </form>
+  <div class="loginBtnContainer">
+    <div class="loginBtn" ng-click="vm.login()">
+      <i class="icon ion-chevron-right"></i>
+    </div>
+  </div>
+</section>

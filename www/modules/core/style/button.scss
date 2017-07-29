@@ -1,0 +1,25 @@
+@import "./globals/all";
+
+button[disabled], html input[disabled] {
+  color: $grey;
+}
+
+.fullBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+  padding: 1em 0;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+
+.orangeBtn {
+  color: $white;
+  background-color: $darkOrange;
+}
+
+.greenBtn {
+  color: $white;
+  background-color: $green;
+}

@@ -5,5 +5,32 @@
  */
 
 body {
-    
+
+}
+
+hr {
+  margin: 1em 0;
+}
+
+/* Platform Specific Styles */
+
+.platform-ios {
+  .root2Container {
+    .title.title-center.header-item {
+      display: none !important;
+    }
+  }
+}
+
+.platform-ipad {
+  .root2Container {
+    .title.title-center.header-item {
+      display: initial !important;
+    }
+  }
+}
+
+ion-header-bar {
+  background-color: $darkOrange !important;
+  color: $white !important;
 }

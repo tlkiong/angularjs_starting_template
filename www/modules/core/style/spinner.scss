@@ -1,8 +1,26 @@
-#loadingContainer {
+#loadingContainer, .loadingContainer {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.8)
+  background-color: rgba(0, 0, 0, 0.8);
+  .spinnerContainer {
+    font-size: 17px;
+    top: 50%;
+    right: 0;
+    left: 0;
+    position: absolute;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    .spinnerTxt {
+      padding: 15px 25px;
+      border-radius: 10px;
+      background-color: rgba(0, 0, 0, 1);
+      color: #FFF;
+      text-overflow: ellipsis;
+      text-align: center;
+    }
+  }
 }

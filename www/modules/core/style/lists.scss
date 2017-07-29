@@ -1,0 +1,32 @@
+@import "./globals/all";
+@import "./mixins/colors";
+
+.faList {
+  .faListItem {
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 10px 14px;
+    border-bottom: 1px solid $grey;
+    .thumbnailContainer {
+      width: 20%;
+      margin-right: 14px;
+      align-self: baseline;
+      .imgContent {
+        @include orangeGradient;
+      }
+    }
+    .contentContainer {
+      display: flex;
+      flex-flow: column nowrap;
+      .itemLbl {
+        font-size: 12px;
+        line-height: 15px;
+      }
+      .titleLbl {
+        margin-bottom: 3px;
+        font-weight: bold;
+        font-size: 15px;
+      }
+    }
+  }
+}

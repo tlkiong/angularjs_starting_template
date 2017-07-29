@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('Core')
-      .service('smoothScrollService', smoothScrollService);
+    .service('smoothScrollService', smoothScrollService);
 
   smoothScrollService.$inject = ['commonService'];
 
@@ -14,7 +14,6 @@
     service.userData = {
 
     };
-
     var docEle;
 
     /* ======================================== Services =============================================== */
@@ -23,10 +22,12 @@
     function scrollToElementId(elementId, isRelativeToWindow) {
       docEle = document.getElementById(elementId);
       if(docEle === null || docEle === undefined) {
-        return;
+         return;
       }
+
       var startYPos = currentYPosition();
       var targetYPos;
+
       if(isRelativeToWindow === true) {
         targetYPos = targetYPositionToWindow();
       } else {
@@ -55,7 +56,6 @@
               docEle.scrollTop = leapY;
             }, timer * speed);
           }
-
           leapY += step;
           if (leapY > targetYPos) leapY = targetYPos;
           timer++;
@@ -82,7 +82,7 @@
     function targetYPositionToElement() {
       return docEle.scrollHeight;
     }
-
+    
     function targetYPositionToWindow() {
       var y = docEle.offsetTop;
       var node = docEle;

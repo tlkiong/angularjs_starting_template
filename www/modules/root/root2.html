@@ -1,0 +1,21 @@
+<ion-tabs class="rootContainer tabs-icon-top">
+
+  <ion-tab title="Competitions" icon-off="ion-home" icon-on="ion-home" href="" ng-click="vm.backToCompetitionList()">
+  </ion-tab>
+
+  <!-- Competition Info Tab -->
+  <ion-tab title="Information" icon-off="ion-information-circled" icon-on="ion-information-circled" href="#/root2/competition-info">
+    <ion-nav-view name="tab-competition-info"></ion-nav-view>
+  </ion-tab>
+
+  <!-- Program Info Tab -->
+  <ion-tab title="Program" icon-off="ion-clipboard" icon-on="ion-clipboard" href="#/root2/program">
+    <ion-nav-view name="tab-program"></ion-nav-view>
+  </ion-tab>
+
+  <!-- Participants Tab -->
+  <ion-tab title="Participants" icon-off="ion-ios-list" icon-on="ion-ios-list" href="#/root2/participant">
+    <ion-nav-view name="tab-participant"></ion-nav-view>
+  </ion-tab>
+
+</ion-tabs>

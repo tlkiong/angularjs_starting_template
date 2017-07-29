@@ -1,68 +1,74 @@
 @import "./globals/all";
+@import "./mixins/iconStyle";
 
-/**
- * For layout classess
- */
-
-// =============================================== Grid System =============================================
-.flexAcross {
-  display: -webkit-flex;
-  -webkit-flex-flow: row nowrap;
-  display: flex;
-  flex-flow: row nowrap;
+// Header bar
+.bar.bar-stable {
+  background-color: $darkOrange !important;
+  color: $white !important;
+  .title {
+    text-align: center !important;
+    color: $white !important;
+    text-transform: capitalize !important;
+  }
+  @include iconStyle(none);
+  .iconContainer {
+    margin: -5px;
+    .icomoon {
+      width: 2em;
+      height: 2em;
+    }
+  }
 }
 
-.flexDown {
-  display: -webkit-flex;
-  -webkit-flex-flow: column nowrap;
-  display: flex;
-  flex-flow: column nowrap;
+.bar-subheader {
+  padding-top: 0 !important;
 }
 
-.flowAcross {
-  display: -webkit-flex;
-  -webkit-flex-flow: row wrap;
-  display: flex;
-  flex-flow: row wrap;
+// Tab
+ion-tabs.rootContainer {
+  .tab-nav.tabs {
+    padding-top: 0;
+    .tab-item {
+      opacity: 0.3;
+      color: $grey;
+      border-top: 4px solid #F8F8F8; // #F8F8F8 is the default color of the tab bar
+      .icon {
+        font-size: 25px;
+        padding-top: 2px;
+        height: 27px;
+      }
+      .tab-title {
+        font-size: 1.5em;
+        text-transform: capitalize;
+      }
+      &.tab-item-active {
+        color: $darkOrange;
+        opacity: 1;
+        border-color: $darkOrange;
+      }
+    }
+  }
 }
 
-.flowDown {
-  display: -webkit-flex;
-  -webkit-flex-flow: column wrap;
-  display: flex;
-  flex-flow: column wrap;
+.noCapitalized {
+  text-transform: initial !important;
 }
 
-.rowReverse {
-  -webkit-flex-direction: row-reverse;
-  flex-direction: row-reverse;
-}
-
-.colReverse {
-  -webkit-flex-direction: column-reverse;
-  flex-direction: column-reverse;
-}
-
-.flexExpand {
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
-
-.flexShrink {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-}
-
-.disabled {
-  opacity: 0.5;
-}
-
-.enabled {
-  opacity: 1.0;
-}
-
-.clickable  {
-  cursor: pointer;
+.squareImg {
+  position: relative;
+  flex-shrink: 0;
+  &:before {
+    display: block;
+    padding-top: 100%;
+    content: '';
+  }
+  img, .imgContent {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 }

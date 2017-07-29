@@ -1,13 +1,12 @@
 (function() {
-
   'use strict';
 
   angular.module('Core')
     .service('commonService', commonService);
 
-  commonService.$inject = ['$document', '$state', '$stateParams', '$q', '$timeout', '$window'];
+  commonService.$inject = ['$ionicPopup', '$ionicLoading', '$document', '$state', '$stateParams', '$q', '$timeout', '$window'];
 
-  function commonService($document, $state, $stateParams, $q, $timeout, $window) {
+  function commonService($ionicPopup, $ionicLoading, $document, $state, $stateParams, $q, $timeout, $window) {
     var service = this;
     service.resetForm = resetForm;
     service.getDateInDDMMMMYYYY = getDateInDDMMMMYYYY;
@@ -19,11 +18,10 @@
     service.loadingMode = loadingMode;
     service.goToPage = goToPage;
     service.getCurrentState = getCurrentState;
-    service.getAllStates = getAllStates;
     service.getStateParam = getStateParam;
-    service.getRandomChameleonColorPair = getRandomChameleonColorPair;
+    service.getAllStates = getAllStates
     service.flattenArray = flattenArray;
-    service.isMobileDevice = isMobileDevice;
+    service.getRandomChameleonColorPair = getRandomChameleonColorPair;
     service.removeFromLocalStorage = removeFromLocalStorage;
     service.getFromLocalStorage = getFromLocalStorage;
     service.saveToLocalStorage = saveToLocalStorage;
@@ -37,12 +35,14 @@
     service.hideIonicLoading = hideIonicLoading;
     /* End: Ionic Related */
 
+
     /* ======================================== Var ==================================================== */
     service.$q = $q;
     service.$timeout = $timeout;
     service.$window = $window;
 
     var spinner; // This is for spin.js
+    var spinnerList = [];
 
     /* ======================================== Services =============================================== */
     var stateParam = $stateParams;
@@ -53,7 +53,7 @@
     /* End: Ionic Related */
 
     /* ======================================== Public Methods ========================================= */
-    
+
     /* ---------------------------------------- Ionic Related ---------------------------------------- */
     function hideIonicLoading() {
       ionicLoadingSvc.hide();
@@ -64,7 +64,7 @@
         message = 'Loading . . .';
       }
 
-      ionicLoadingSvc.show({
+      return ionicLoadingSvc.show({
         template: message
       });
     }
@@ -176,53 +176,6 @@
     function saveToLocalStorage(name, obj) {
       return localStorage.setItem(name, JSON.stringify(obj));
     }
-    
-    function isMobileDevice(type) {
-      var isAndroid = navigator.userAgent.match(/Android/i);
-      var isIos = navigator.userAgent.match(/iPhone|iPad|iPod/i);
-      var isBlackberry = navigator.userAgent.match(/BlackBerry/i);
-      var isOperaMini = navigator.userAgent.match(/Opera Mini/i);
-      var isWindows = navigator.userAgent.match(/IEMobile/i);
-
-      if(isObjPresent(type)) {
-        type = type.toLowerCase();
-        if (type === 'android') {
-          if (isAndroid) return 'android';
-
-          return false;
-        } else if (type === 'blackberry') {
-          if (isBlackberry) return 'blackberry';
-
-          return false;
-        } else if (type === 'ios') {
-          if (isIos) return 'ios';
-
-          return false;
-        } else if (type === 'opera') {
-          if (isOperaMini) return 'opera';
-
-          return false;
-        } else if (type === 'windows') {
-          if (isWindows) return 'windows';
-
-          return false;
-        }
-      } else {
-        if (isAndroid) {
-          return 'android';
-        } else if (isBlackberry) {
-          return 'blackberry';
-        } else if (isIos) {
-          return 'ios';
-        } else if (isOperaMini) {
-          return 'opera';
-        } else if (isWindows) {
-          return 'windows';
-        } else {
-          return false;
-        }
-      }
-    }
 
     /**
      * The below is shamelessly taken from 'http://stackoverflow.com/a/27282907'
@@ -290,16 +243,16 @@
       return colourPair[Math.floor(Math.random() * (colourPair.length - 1))];
     }
 
+    function getAllStates() {
+      return $state.get();
+    }
+
     function getStateParam(hasUrlParam) {
       if(isObjPresent(hasUrlParam)) {
         return stateParam;
       }
-      
-      return stateParam.data;
-    }
 
-    function getAllStates() {
-      return $state.get();
+      return stateParam.data;
     }
 
     function getCurrentState() {
@@ -343,52 +296,26 @@
       return stateObj.$$state;
     }
 
-    function loadingMode(isLoading, containerIdToAddThisLoader, customLoader) {
+    function loadingMode(isLoading, containerIdToAddThisLoader, spinnerTxt) {
       if(isLoading === true || isLoading === false) {
         if(isLoading == true) {
-          if(isObjPresent(containerIdToAddThisLoader)) {
-            if(!isObjPresent(document.getElementById('loadingContainer'))) {
-              var loadingHtml = angular.element('<div id="loadingContainer"><div id="spinner"></div></div>');
-              var dom = angular.element(document.getElementById(containerIdToAddThisLoader));
-              dom.css("position", "relative"); // This has to be double "" as '' does not work.
-              dom.append(loadingHtml);
-              
-              var opts = {
-                lines: 13, // The number of lines to draw
-                length: 28, // The length of each line
-                width: 14, // The line thickness
-                radius: 50, // The radius of the inner circle
-                scale: 1, // Scales overall size of the spinner
-                corners: 1, // Corner roundness (0..1)
-                color: '#000', // #rgb or #rrggbb or array of colors
-                opacity: 0, // Opacity of the lines
-                rotate: 0, // The rotation offset
-                direction: 1, // 1: clockwise, -1: counterclockwise
-                speed: 1, // Rounds per second
-                trail: 100, // Afterglow percentage
-                fps: 20, // Frames per second when using setTimeout() as a fallback for CSS
-                zIndex: 2e9, // The z-index (defaults to 2000000000)
-                className: 'spinner', // The CSS class to assign to the spinner
-                top: '50%', // Top position relative to parent
-                left: '50%', // Left position relative to parent
-                shadow: false, // Whether to render a shadow
-                hwaccel: false, // Whether to use hardware acceleration
-                position: 'absolute' // Element positioning
+          if(isObjPresent(containerIdToAddThisLoader) == true) {
+            if(!isObjPresent(document.getElementById('loadingContainer-' + containerIdToAddThisLoader))) {
+              var loadingHtml;
+              if(isObjPresent(spinnerTxt)) {
+                loadingHtml = angular.element('<div class="loadingContainer" id="loadingContainer-' + containerIdToAddThisLoader + '"><div id="spinner-' + containerIdToAddThisLoader + '"></div><div class="spinnerContainer"><div class="spinnerTxt">' + spinnerTxt + '</div></div></div>');
+              } else {
+                loadingHtml = angular.element('<div class="loadingContainer" id="loadingContainer-' + containerIdToAddThisLoader + '"><div id="spinner-' + containerIdToAddThisLoader + '"></div></div>');
               }
-              var target = document.getElementById('spinner')
-              spinner = new Spinner(opts).spin(target);
-            }
-          } else {
-            if(!isObjPresent(document.getElementById('loadingContainer'))) {
-              var loadingHtml = '<div id="loadingContainer"><div id="spinner"></div></div>';
-              var body = $document.find('body').eq(0);
-              body.append(loadingHtml);
-              
+              var dom = angular.element(document.getElementById(containerIdToAddThisLoader));
+              // dom.css("position", "relative"); // This has to be double "" as '' does not work.
+              dom.append(loadingHtml);
+
               var opts = {
-                lines: 13, // The number of lines to draw
-                length: 28, // The length of each line
-                width: 14, // The line thickness
-                radius: 50, // The radius of the inner circle
+                lines: 11, // The number of lines to draw
+                length: 10, // The length of each line
+                width: 4, // The line thickness
+                radius: 15, // The radius of the inner circle
                 scale: 1, // Scales overall size of the spinner
                 corners: 1, // Corner roundness (0..1)
                 color: '#FFF', // #rgb or #rrggbb or array of colors
@@ -400,39 +327,77 @@
                 fps: 20, // Frames per second when using setTimeout() as a fallback for CSS
                 zIndex: 2e9, // The z-index (defaults to 2000000000)
                 className: 'spinner', // The CSS class to assign to the spinner
-                top: '50%', // Top position relative to parent
+                top: '40%', // Top position relative to parent
+                left: '50%', // Left position relative to parent
+                shadow: false, // Whether to render a shadow
+                hwaccel: false, // Whether to use hardware acceleration
+                position: 'absolute' // Element positioning
+              }
+              var target = document.getElementById('spinner-' + containerIdToAddThisLoader + '')
+              spinnerList.push({
+                elementId: 'loadingContainer-' + containerIdToAddThisLoader,
+                spinner: new Spinner(opts).spin(target)
+              });
+            }
+          } else {
+            if(!isObjPresent(document.getElementById('loadingContainer'))) {
+              var loadingHtml;
+              if(isObjPresent(spinnerTxt)) {
+                loadingHtml = angular.element('<div id="loadingContainer"><div id="spinner"></div><div class="spinnerContainer"><div class="spinnerTxt">' + spinnerTxt + '</div></div></div>');
+              } else {
+                loadingHtml = angular.element('<div id="loadingContainer"><div id="spinner"></div></div>');
+              }
+              var body = $document.find('body').eq(0);
+              body.append(loadingHtml);
+
+              var opts = {
+                lines: 11, // The number of lines to draw
+                length: 10, // The length of each line
+                width: 4, // The line thickness
+                radius: 15, // The radius of the inner circle
+                scale: 1, // Scales overall size of the spinner
+                corners: 1, // Corner roundness (0..1)
+                color: '#FFF', // #rgb or #rrggbb or array of colors
+                opacity: 0, // Opacity of the lines
+                rotate: 0, // The rotation offset
+                direction: 1, // 1: clockwise, -1: counterclockwise
+                speed: 1, // Rounds per second
+                trail: 100, // Afterglow percentage
+                fps: 20, // Frames per second when using setTimeout() as a fallback for CSS
+                zIndex: 2e9, // The z-index (defaults to 2000000000)
+                className: 'spinner', // The CSS class to assign to the spinner
+                top: '40%', // Top position relative to parent
                 left: '50%', // Left position relative to parent
                 shadow: false, // Whether to render a shadow
                 hwaccel: false, // Whether to use hardware acceleration
                 position: 'absolute' // Element positioning
               }
               var target = document.getElementById('spinner')
-              spinner = new Spinner(opts).spin(target);
+              spinnerList.push({
+                elementId: 'loadingContainer',
+                spinner: new Spinner(opts).spin(target)
+              });
             }
           }
         } else {
-          if(isObjPresent(spinner)) {
-            spinner.stop();
-            angular.element(document.getElementById('loadingContainer')).remove();
+          if(isObjPresent(spinnerList)) {
+            if(isObjPresent(containerIdToAddThisLoader)) {
+              spinnerList.forEach(function(e) {
+                if(e.elementId === 'loadingContainer-' + containerIdToAddThisLoader) {
+                  angular.element(document.getElementById(e.elementId)).remove();
+                  e.spinner.stop();
+                }
+              });
+            } else {
+              // Here should have only 1
+              spinnerList.forEach(function(e) {
+                if(e.elementId === 'loadingContainer') {
+                  angular.element(document.getElementById(e.elementId)).remove();
+                  e.spinner.stop();
+                }
+              });
+            }
           }
-        }
-      } else if (customLoader === true || customLoader === false) {
-        if(customLoader === true) {
-          var checkLoadingEle = document.getElementById('loadingContainer');
-          if(isObjPresent(checkLoadingEle)) {
-            angular.element(checkLoadingEle).remove();
-          }
-          var loadingHtml = angular.element('<div id="loadingContainer"><img src="/resources/img/customLoader.gif" ></div>');
-          if(isObjPresent(containerIdToAddThisLoader)) {
-            var dom = angular.element(document.getElementById(containerIdToAddThisLoader));
-            dom.css("position", "relative"); // This has to be double "" as '' does not work.
-            dom.append(loadingHtml);
-          } else {
-            var body = $document.find('body').eq(0);
-            body.append(loadingHtml);
-          }
-        } else {
-          angular.element(document.getElementById('loadingContainer')).remove();
         }
       } else {
         throw new Error ('Parameter can only be TRUE or FALSE');
@@ -450,7 +415,7 @@
         return num.toString()
           .split('')
           .map(function(char, index) {
-            return (index == 0) ? char : '0';
+              return (index == 0) ? char : '0';
           })
           .join('') - 0; // -0 Will convert the entire string to a number
       } else {
@@ -474,7 +439,7 @@
      * Fast UUID generator, RFC4122 version 4 compliant.
      *
      * Don't understand how it works? Please visit the link as shown below. Its not meant to be readable as much as its meant to be fast
-     * 
+     *
      * @author Jeff Ward (jcward.com).
      * @license MIT license
      * @link http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/21963136#21963136
@@ -489,9 +454,9 @@
       var d2 = Math.random() * 0xffffffff | 0;
       var d3 = Math.random() * 0xffffffff | 0;
       return lut[d0 & 0xff] + lut[d0 >> 8 & 0xff] + lut[d0 >> 16 & 0xff] + lut[d0 >> 24 & 0xff] + '-' +
-        lut[d1 & 0xff] + lut[d1 >> 8 & 0xff] + '-' + lut[d1 >> 16 & 0x0f | 0x40] + lut[d1 >> 24 & 0xff] + '-' +
-        lut[d2 & 0x3f | 0x80] + lut[d2 >> 8 & 0xff] + '-' + lut[d2 >> 16 & 0xff] + lut[d2 >> 24 & 0xff] +
-        lut[d3 & 0xff] + lut[d3 >> 8 & 0xff] + lut[d3 >> 16 & 0xff] + lut[d3 >> 24 & 0xff];
+          lut[d1 & 0xff] + lut[d1 >> 8 & 0xff] + '-' + lut[d1 >> 16 & 0x0f | 0x40] + lut[d1 >> 24 & 0xff] + '-' +
+          lut[d2 & 0x3f | 0x80] + lut[d2 >> 8 & 0xff] + '-' + lut[d2 >> 16 & 0xff] + lut[d2 >> 24 & 0xff] +
+          lut[d3 & 0xff] + lut[d3 >> 8 & 0xff] + lut[d3 >> 16 & 0xff] + lut[d3 >> 24 & 0xff];
     }
 
     function getObjType(object) { // Would really appreciate a unit test to test all for this as manual testing didn't cover everything
@@ -536,7 +501,7 @@
      *         - function () { }
      *         - function(param1, param2, param3) { }
      *     A non empty function is:
-     *         - function() { console.log(); } 
+     *         - function() { console.log(); }
      *     An invalid date will return false for this function
      *     A valid date will return true for this function
      *     This will just check if its empty or not and not check if its syntatically correct or not
