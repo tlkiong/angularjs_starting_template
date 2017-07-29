@@ -177,6 +177,53 @@
       return localStorage.setItem(name, JSON.stringify(obj));
     }
 
+    function isMobileDevice(type) {
+      var isAndroid = navigator.userAgent.match(/Android/i);
+      var isIos = navigator.userAgent.match(/iPhone|iPad|iPod/i);
+      var isBlackberry = navigator.userAgent.match(/BlackBerry/i);
+      var isOperaMini = navigator.userAgent.match(/Opera Mini/i);
+      var isWindows = navigator.userAgent.match(/IEMobile/i);
+
+      if(isObjPresent(type)) {
+        type = type.toLowerCase();
+        if (type === 'android') {
+          if (isAndroid) return 'android';
+
+          return false;
+        } else if (type === 'blackberry') {
+          if (isBlackberry) return 'blackberry';
+
+          return false;
+        } else if (type === 'ios') {
+          if (isIos) return 'ios';
+
+          return false;
+        } else if (type === 'opera') {
+          if (isOperaMini) return 'opera';
+
+          return false;
+        } else if (type === 'windows') {
+          if (isWindows) return 'windows';
+
+          return false;
+        }
+      } else {
+        if (isAndroid) {
+          return 'android';
+        } else if (isBlackberry) {
+          return 'blackberry';
+        } else if (isIos) {
+          return 'ios';
+        } else if (isOperaMini) {
+          return 'opera';
+        } else if (isWindows) {
+          return 'windows';
+        } else {
+          return false;
+        }
+      }
+    }
+
     /**
      * The below is shamelessly taken from 'http://stackoverflow.com/a/27282907'
      *  - This is done in a linear time O(n) without recursion
@@ -251,6 +298,9 @@
       if(isObjPresent(hasUrlParam)) {
         return stateParam;
       }
+
+      return stateParam.data;
+    }
 
       return stateParam.data;
     }
@@ -628,7 +678,7 @@
           monthInString = 'Dec';
         }
 
-        return new Date(Number(dateTimeInEpoch)).getDay() + ' ' + monthInString + ' ' + new Date(Number(dateTimeInEpoch)).getFullYear();
+        return new Date(Number(dateTimeInEpoch)).getDate() + ' ' + monthInString + ' ' + new Date(Number(dateTimeInEpoch)).getFullYear();
       } catch (e) {
         throw new Error('date time is not in number');
       }
