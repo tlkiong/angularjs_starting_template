@@ -302,9 +302,6 @@
       return stateParam.data;
     }
 
-      return stateParam.data;
-    }
-
     function getCurrentState() {
       return $state.current;
     }
