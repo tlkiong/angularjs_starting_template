@@ -2,11 +2,11 @@
   'use strict';
 
   angular.module('Core')
-    .service('ionicCommonService', ionicCommonService);
+    .service('commonIonicService', commonIonicService);
 
-  ionicCommonService.$inject = ['$ionicPopup', '$ionicLoading', 'commonService'];
+  commonIonicService.$inject = ['$ionicPopup', '$ionicLoading', 'commonService'];
 
-  function ionicCommonService($ionicPopup, $ionicLoading, commonService) {
+  function commonIonicService($ionicPopup, $ionicLoading, commonService) {
     var service = this;
     service.ionicPopUp = ionicPopUp;
     service.ionicErrorPopUp = ionicErrorPopUp;
