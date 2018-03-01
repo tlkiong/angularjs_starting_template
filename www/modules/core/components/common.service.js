@@ -10,6 +10,8 @@
     var service = this;
     service.resetForm = resetForm;
     service.getDateInDDMMMMYYYY = getDateInDDMMMMYYYY;
+    service.getMonthName = getMonthName;
+    service.getDayInEpoch = getDayInEpoch;
     service.isObjPresent = isObjPresent;
     service.getObjType = getObjType;
     service.getUUID = getUUID;
@@ -25,6 +27,7 @@
     service.removeFromLocalStorage = removeFromLocalStorage;
     service.getFromLocalStorage = getFromLocalStorage;
     service.saveToLocalStorage = saveToLocalStorage;
+    service.roundNumberByDecimalPlaces = roundNumberByDecimalPlaces;
 
     /* Ionic Related */
     service.ionicPopUp = ionicPopUp;
@@ -164,6 +167,30 @@
       }
     }
     /* ---------------------------------------- End: Ionic Related ---------------------------------------- */
+
+    // Code is from: https://stackoverflow.com/questions/11832914/round-to-at-most-2-decimal-places-only-if-necessary#answer-12830454
+    function roundNumberByDecimalPlaces(num, numberOfDecimalPlaces) {
+      if(!isObjPresent(num) && !isObjPresent(numberOfDecimalPlaces)) {
+        throw new Error ('roundNumberByDecimalPlaces have 2 params. Either one must be present');
+      } else {
+        if(!isObjPresent(num) && isObjPresent(numberOfDecimalPlaces)) {
+          return 0;
+        } else if (isObjPresent(num) && !isObjPresent(numberOfDecimalPlaces)) {
+          return num;
+        }
+      }
+
+      if(!("" + num).includes("e")) {
+        return +(Math.round(num + "e+" + numberOfDecimalPlaces)  + "e-" + numberOfDecimalPlaces);
+      } else {
+        var arr = ("" + num).split("e");
+        var sig = ""
+        if(+arr[1] + numberOfDecimalPlaces > 0) {
+          sig = "+";
+        }
+        return +(Math.round(+arr[0] + "e" + sig + (+arr[1] + numberOfDecimalPlaces)) + "e-" + numberOfDecimalPlaces);
+      }
+    }
 
     function removeFromLocalStorage(name) {
       return localStorage.removeItem(name);
@@ -640,6 +667,56 @@
         return false;
       } else {
         throw new Error(obj + ' is not an array, string, boolean or number. This fn only work with those for now');
+      }
+    }
+
+    function getDayInEpoch(validJsDate) {
+      if(!isObjPresent(validJsDate)) {
+        validJsDate = Date.now();
+      }
+
+      var d = new Date(validJsDate);
+      if(d === 'Invalid Date') {
+        return d;
+      }
+
+      return (new Date(d.getFullYear(), d.getMonth(), d.getDate())).getTime();
+    }
+
+    function getMonthName(dateTimeInEpoch) {
+      try {
+        var month = new Date(Number(dateTimeInEpoch)).getMonth();
+        var monthInString = '';
+
+        if (month == 0) {
+          monthInString = 'january';
+        } else if (month == 1) {
+          monthInString = 'february';
+        } else if (month == 2) {
+          monthInString = 'march';
+        } else if (month == 3) {
+          monthInString = 'april';
+        } else if (month == 4) {
+          monthInString = 'may';
+        } else if (month == 5) {
+          monthInString = 'june';
+        } else if (month == 6) {
+          monthInString = 'july';
+        } else if (month == 7) {
+          monthInString = 'august';
+        } else if (month == 8) {
+          monthInString = 'september';
+        } else if (month == 9) {
+          monthInString = 'october';
+        } else if (month == 10) {
+          monthInString = 'november';
+        } else if (month == 11) {
+          monthInString = 'december';
+        }
+
+        return monthInString;
+      } catch (e) {
+        throw new Error('date time is not in number');
       }
     }
 
