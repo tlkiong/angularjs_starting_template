@@ -4,13 +4,12 @@
   angular.module('Core')
     .service('commonService', commonService);
 
-  commonService.$inject = ['$document', '$state', '$stateParams', '$q', '$timeout', '$window'];
+  commonService.$inject = [];
 
-  function commonService($document, $state, $stateParams, $q, $timeout, $window) {
+  function commonService() {
     var service = this;
-    service.resetForm = resetForm;
-    service.getDateInDDMMMMYYYY = getDateInDDMMMMYYYY;
     service.getMonthNameFromDateObj = getMonthNameFromDateObj;
+    service.getDateInDDMMMMYYYY = getDateInDDMMMMYYYY;
     service.getMonthNameFromEpochDate = getMonthNameFromEpochDate;
     service.getDayInEpoch = getDayInEpoch;
     service.isObjPresent = isObjPresent;
@@ -18,11 +17,6 @@
     service.getUUID = getUUID;
     service.isEpochTimeInMs = isEpochTimeInMs;
     service.getValInNumber = getValInNumber;
-    service.loadingMode = loadingMode;
-    service.goToPage = goToPage;
-    service.getCurrentState = getCurrentState;
-    service.getStateParam = getStateParam;
-    service.getAllStates = getAllStates
     service.flattenArray = flattenArray;
     service.getRandomChameleonColorPair = getRandomChameleonColorPair;
     service.removeFromLocalStorage = removeFromLocalStorage;
@@ -31,17 +25,11 @@
     service.roundNumberByDecimalPlaces = roundNumberByDecimalPlaces;
     service.getAllQueryStrings = getAllQueryStrings;
 
-
     /* ======================================== Var ==================================================== */
-    service.$q = $q;
-    service.$timeout = $timeout;
-    service.$window = $window;
-
     var spinner; // This is for spin.js
     var spinnerList = [];
 
     /* ======================================== Services =============================================== */
-    var stateParam = $stateParams;
 
     /* ======================================== Public Methods ========================================= */
     function getAllQueryStrings() {
@@ -197,167 +185,6 @@
       colourPair = flattenArray(colourPair);
 
       return colourPair[Math.floor(Math.random() * (colourPair.length - 1))];
-    }
-
-    function getAllStates() {
-      return $state.get();
-    }
-
-    function getStateParam(hasUrlParam) {
-      if(isObjPresent(hasUrlParam)) {
-        return stateParam;
-      }
-
-      return stateParam.data;
-    }
-
-    function getCurrentState() {
-      return $state.current;
-    }
-
-    function goToPage(stateName, hasRoot, toReload, stateParam, urlParams) {
-      var stateObj = {};
-
-      if (isObjPresent(stateName)) {
-        if (isObjPresent(hasRoot)) {
-          if(hasRoot === true) {
-            stateName = 'root.' + stateName;
-          } else if (getObjType(hasRoot) === 'string') {
-            stateName = hasRoot + '.' + stateName;
-          }
-        }
-
-        if (isObjPresent(stateParam) || isObjPresent(urlParams)) {
-          var stateNUrlParam;
-
-          if (isObjPresent(urlParams)) {
-            urlParams['data'] = stateParam;
-            stateNUrlParam = urlParams
-          } else {
-            stateNUrlParam = {
-              data: stateParam
-            }
-          }
-
-          stateObj = $state.go(stateName, stateNUrlParam);
-        } else {
-          stateObj = $state.go(stateName);
-        }
-      } else {
-        if (toReload) {
-          $state.reload();
-        }
-      }
-
-      return stateObj.$$state;
-    }
-
-    function loadingMode(isLoading, containerIdToAddThisLoader, spinnerTxt) {
-      if(isLoading === true || isLoading === false) {
-        if(isLoading == true) {
-          if(isObjPresent(containerIdToAddThisLoader) == true) {
-            if(!isObjPresent(document.getElementById('loadingContainer-' + containerIdToAddThisLoader))) {
-              var loadingHtml;
-              if(isObjPresent(spinnerTxt)) {
-                loadingHtml = angular.element('<div class="loadingContainer" id="loadingContainer-' + containerIdToAddThisLoader + '"><div id="spinner-' + containerIdToAddThisLoader + '"></div><div class="spinnerContainer"><div class="spinnerTxt">' + spinnerTxt + '</div></div></div>');
-              } else {
-                loadingHtml = angular.element('<div class="loadingContainer" id="loadingContainer-' + containerIdToAddThisLoader + '"><div id="spinner-' + containerIdToAddThisLoader + '"></div></div>');
-              }
-              var dom = angular.element(document.getElementById(containerIdToAddThisLoader));
-              // dom.css("position", "relative"); // This has to be double "" as '' does not work.
-              dom.append(loadingHtml);
-
-              var opts = {
-                lines: 11, // The number of lines to draw
-                length: 10, // The length of each line
-                width: 4, // The line thickness
-                radius: 15, // The radius of the inner circle
-                scale: 1, // Scales overall size of the spinner
-                corners: 1, // Corner roundness (0..1)
-                color: '#FFF', // #rgb or #rrggbb or array of colors
-                opacity: 0, // Opacity of the lines
-                rotate: 0, // The rotation offset
-                direction: 1, // 1: clockwise, -1: counterclockwise
-                speed: 1, // Rounds per second
-                trail: 100, // Afterglow percentage
-                fps: 20, // Frames per second when using setTimeout() as a fallback for CSS
-                zIndex: 2e9, // The z-index (defaults to 2000000000)
-                className: 'spinner', // The CSS class to assign to the spinner
-                top: '40%', // Top position relative to parent
-                left: '50%', // Left position relative to parent
-                shadow: false, // Whether to render a shadow
-                hwaccel: false, // Whether to use hardware acceleration
-                position: 'absolute' // Element positioning
-              }
-              var target = document.getElementById('spinner-' + containerIdToAddThisLoader + '')
-              spinnerList.push({
-                elementId: 'loadingContainer-' + containerIdToAddThisLoader,
-                spinner: new Spinner(opts).spin(target)
-              });
-            }
-          } else {
-            if(!isObjPresent(document.getElementById('loadingContainer'))) {
-              var loadingHtml;
-              if(isObjPresent(spinnerTxt)) {
-                loadingHtml = angular.element('<div id="loadingContainer"><div id="spinner"></div><div class="spinnerContainer"><div class="spinnerTxt">' + spinnerTxt + '</div></div></div>');
-              } else {
-                loadingHtml = angular.element('<div id="loadingContainer"><div id="spinner"></div></div>');
-              }
-              var body = $document.find('body').eq(0);
-              body.append(loadingHtml);
-
-              var opts = {
-                lines: 11, // The number of lines to draw
-                length: 10, // The length of each line
-                width: 4, // The line thickness
-                radius: 15, // The radius of the inner circle
-                scale: 1, // Scales overall size of the spinner
-                corners: 1, // Corner roundness (0..1)
-                color: '#FFF', // #rgb or #rrggbb or array of colors
-                opacity: 0, // Opacity of the lines
-                rotate: 0, // The rotation offset
-                direction: 1, // 1: clockwise, -1: counterclockwise
-                speed: 1, // Rounds per second
-                trail: 100, // Afterglow percentage
-                fps: 20, // Frames per second when using setTimeout() as a fallback for CSS
-                zIndex: 2e9, // The z-index (defaults to 2000000000)
-                className: 'spinner', // The CSS class to assign to the spinner
-                top: '40%', // Top position relative to parent
-                left: '50%', // Left position relative to parent
-                shadow: false, // Whether to render a shadow
-                hwaccel: false, // Whether to use hardware acceleration
-                position: 'absolute' // Element positioning
-              }
-              var target = document.getElementById('spinner')
-              spinnerList.push({
-                elementId: 'loadingContainer',
-                spinner: new Spinner(opts).spin(target)
-              });
-            }
-          }
-        } else {
-          if(isObjPresent(spinnerList)) {
-            if(isObjPresent(containerIdToAddThisLoader)) {
-              spinnerList.forEach(function(e) {
-                if(e.elementId === 'loadingContainer-' + containerIdToAddThisLoader) {
-                  angular.element(document.getElementById(e.elementId)).remove();
-                  e.spinner.stop();
-                }
-              });
-            } else {
-              // Here should have only 1
-              spinnerList.forEach(function(e) {
-                if(e.elementId === 'loadingContainer') {
-                  angular.element(document.getElementById(e.elementId)).remove();
-                  e.spinner.stop();
-                }
-              });
-            }
-          }
-        }
-      } else {
-        throw new Error ('Parameter can only be TRUE or FALSE');
-      }
     }
 
     // This function will return the following:
@@ -574,6 +401,18 @@
       }
     }
 
+    function getDateInDDMMMMYYYY(dateTimeInEpoch) { // Will return dd MMMM YYYY : 01 Jan 2012
+      try {
+        var dateTimeInNumber = Number(dateTimeInEpoch);
+        var month = new Date(Number(dateTimeInEpoch)).getMonth();
+        var monthInString = getMonthNameFromDateObj(month);
+
+        return new Date(Number(dateTimeInEpoch)).getDate() + ' ' + monthInString + ' ' + new Date(Number(dateTimeInEpoch)).getFullYear();
+      } catch (e) {
+        throw new Error('date time is not in number');
+      }
+    }
+
     function getMonthNameFromDateObj(number) {
       if(number >= 0 && number <= 11) {
         var monthNames = [
@@ -593,49 +432,6 @@
         
         return monthNames[number];
       }
-    }
-
-    function getDateInDDMMMMYYYY(dateTimeInEpoch) { // Will return dd MMMM YYYY : 01 Jan 2012
-      try {
-        var dateTimeInNumber = Number(dateTimeInEpoch);
-        var month = new Date(Number(dateTimeInEpoch)).getMonth();
-        var monthInString = '';
-
-        if (month == 0) {
-          monthInString = 'Jan';
-        } else if (month == 1) {
-          monthInString = 'Feb';
-        } else if (month == 2) {
-          monthInString = 'Mac';
-        } else if (month == 3) {
-          monthInString = 'Apr';
-        } else if (month == 4) {
-          monthInString = 'May';
-        } else if (month == 5) {
-          monthInString = 'Jun';
-        } else if (month == 6) {
-          monthInString = 'Jul';
-        } else if (month == 7) {
-          monthInString = 'Aug';
-        } else if (month == 8) {
-          monthInString = 'Sept';
-        } else if (month == 9) {
-          monthInString = 'Oct';
-        } else if (month == 10) {
-          monthInString = 'Nov';
-        } else if (month == 11) {
-          monthInString = 'Dec';
-        }
-
-        return new Date(Number(dateTimeInEpoch)).getDate() + ' ' + monthInString + ' ' + new Date(Number(dateTimeInEpoch)).getFullYear();
-      } catch (e) {
-        throw new Error('date time is not in number');
-      }
-    }
-
-    function resetForm(formName, formObj) {
-      formName.$setPristine();
-      angular.copy({}, formObj);
     }
 
     /* ======================================== Private Methods ======================================== */
