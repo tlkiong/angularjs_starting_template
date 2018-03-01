@@ -10,7 +10,8 @@
     var service = this;
     service.resetForm = resetForm;
     service.getDateInDDMMMMYYYY = getDateInDDMMMMYYYY;
-    service.getMonthName = getMonthName;
+    service.getMonthNameFromDateObj = getMonthNameFromDateObj;
+    service.getMonthNameFromEpochDate = getMonthNameFromEpochDate;
     service.getDayInEpoch = getDayInEpoch;
     service.isObjPresent = isObjPresent;
     service.getObjType = getObjType;
@@ -28,6 +29,7 @@
     service.getFromLocalStorage = getFromLocalStorage;
     service.saveToLocalStorage = saveToLocalStorage;
     service.roundNumberByDecimalPlaces = roundNumberByDecimalPlaces;
+    service.getAllQueryStrings = getAllQueryStrings;
 
     /* Ionic Related */
     service.ionicPopUp = ionicPopUp;
@@ -167,6 +169,12 @@
       }
     }
     /* ---------------------------------------- End: Ionic Related ---------------------------------------- */
+
+    function getAllQueryStrings() {
+      return window.location.href.substring(window.location.href.indexOf('?') + 1).split('&').map(function(currentE) {
+        return { qStringKey: currentE.split('=')[0], qStringVal: currentE.split('=')[1] }
+      });
+    }
 
     // Code is from: https://stackoverflow.com/questions/11832914/round-to-at-most-2-decimal-places-only-if-necessary#answer-12830454
     function roundNumberByDecimalPlaces(num, numberOfDecimalPlaces) {
@@ -683,40 +691,33 @@
       return (new Date(d.getFullYear(), d.getMonth(), d.getDate())).getTime();
     }
 
-    function getMonthName(dateTimeInEpoch) {
+    function getMonthNameFromEpochDate(dateTimeInEpoch) {
       try {
         var month = new Date(Number(dateTimeInEpoch)).getMonth();
-        var monthInString = '';
-
-        if (month == 0) {
-          monthInString = 'january';
-        } else if (month == 1) {
-          monthInString = 'february';
-        } else if (month == 2) {
-          monthInString = 'march';
-        } else if (month == 3) {
-          monthInString = 'april';
-        } else if (month == 4) {
-          monthInString = 'may';
-        } else if (month == 5) {
-          monthInString = 'june';
-        } else if (month == 6) {
-          monthInString = 'july';
-        } else if (month == 7) {
-          monthInString = 'august';
-        } else if (month == 8) {
-          monthInString = 'september';
-        } else if (month == 9) {
-          monthInString = 'october';
-        } else if (month == 10) {
-          monthInString = 'november';
-        } else if (month == 11) {
-          monthInString = 'december';
-        }
-
-        return monthInString;
+        getMonthNameFromDateObj(month);
       } catch (e) {
         throw new Error('date time is not in number');
+      }
+    }
+
+    function getMonthNameFromDateObj(number) {
+      if(number >= 0 && number <= 11) {
+        var monthNames = [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December'
+        ];
+        
+        return monthNames[number];
       }
     }
 
