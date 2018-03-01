@@ -1,5 +1,7 @@
 # AngularJS (1.x) Starting Template #
 
+TODO: Convert `www` folder to `app` folder
+
 ## Introduction ##
 
 This repository contains a scaffold for an AngularJS (1.x) app. This **CAN** be used within Ionic framework mobile apps. However, there are a few things that need to be modified. There are a lot more other than what is written below. Will update when there is time.
