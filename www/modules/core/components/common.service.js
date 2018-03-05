@@ -257,7 +257,8 @@
         '[object Blob]': 'blob',
         '[object File]': 'file',
         '[object MouseEvent]': 'mouse_event',
-        '[object KeyboardEvent]': 'keyboard_event'
+        '[object KeyboardEvent]': 'keyboard_event',
+        '[object HTMLElement]': 'htmlElement'
       }
 
       var objType = prop[Object.prototype.toString.call(object)];
@@ -349,7 +350,7 @@
         } else {
           return true; // Date is valid
         }
-      } else if (type === 'htmlDivElement') {
+      } else if (type === 'htmlDivElement' || type === 'htmlElement') {
         if(type.toString().length > 0) {
           return true;
         } else {
