@@ -24,6 +24,8 @@
     service.saveToLocalStorage = saveToLocalStorage;
     service.roundNumberByDecimalPlaces = roundNumberByDecimalPlaces;
     service.getAllQueryStrings = getAllQueryStrings;
+    service.convertObjToArray = convertObjToArray;
+    service.isObjNotPresentInArr = isObjNotPresentInArr;
 
     /* ======================================== Var ==================================================== */
     var spinner; // This is for spin.js
@@ -32,6 +34,33 @@
     /* ======================================== Services =============================================== */
 
     /* ======================================== Public Methods ========================================= */
+    function isObjNotPresentInArr(arr1, val) {
+      let isNotPresent = true;
+      for(let i=0, j=arr1.length; i<j; i++) {
+        if(arr1[i].name === val.name) {
+          isNotPresent = false;
+          break;
+        }
+      }
+
+      return isNotPresent;
+    }
+
+    function convertObjToArray(obj, propNameForKey){
+      let arr = [];
+
+      for(let k in obj) {
+        if(obj.hasOwnProperty(k)) {
+          if(getObjType(propNameForKey) === 'string' && isObjPresent(propNameForKey)){
+            obj[k][propNameForKey] = k;
+          }
+          arr.push(obj[k]);
+        }
+      }
+
+      return arr;
+    }
+
     function getAllQueryStrings() {
       return window.location.href.substring(window.location.href.indexOf('?') + 1).split('&').map(function(currentE) {
         return { qStringKey: currentE.split('=')[0], qStringVal: currentE.split('=')[1] }
