@@ -34,10 +34,10 @@
     /* ======================================== Services =============================================== */
 
     /* ======================================== Public Methods ========================================= */
-    function isObjNotPresentInArr(arr1, val) {
+    function isObjNotPresentInArr(arr1, val, comparisonKey) {
       let isNotPresent = true;
       for(let i=0, j=arr1.length; i<j; i++) {
-        if(arr1[i].name === val.name) {
+        if(arr1[i][comparisonKey] === val[comparisonKey]) {
           isNotPresent = false;
           break;
         }
