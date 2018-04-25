@@ -34,14 +34,12 @@
   //       requireBase: false
   //   });
   // })
-  // .config(function(translationHelperProvider) {
-  //   // --- To use the below translation provider, add as param in the config's fn: translationHelperProvider
+  // .config(function($translateProvider) {
   //   // ---      The dependency used here is 'angular-translate'
-  //   var translationSvc = translationHelperProvider.$get();
-
-  //   $translateProvider.translations('en', translationSvc.getTranslationType('en'));
-  //   $translateProvider.preferredLanguage('en');
+  //   // You need to add 'pascalprecht.translate' as dependency in 'app' module
+  //   $translateProvider.preferredLanguage('default');
   //   $translateProvider.useSanitizeValueStrategy('sanitize'); // Refer http://angular-translate.github.io/docs/#/guide/19_security for security on Angular-translate
+  //   $translateProvider.useLoader('angularTranslateCustomLoader');
   // })
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
