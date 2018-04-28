@@ -24,6 +24,8 @@
     service.saveToLocalStorage = saveToLocalStorage;
     service.roundNumberByDecimalPlaces = roundNumberByDecimalPlaces;
     service.getAllQueryStrings = getAllQueryStrings;
+    service.convertObjToArray = convertObjToArray;
+    service.isObjNotPresentInArr = isObjNotPresentInArr;
     service.isMobileDevice = isMobileDevice;
 
     /* ======================================== Var ==================================================== */
@@ -78,6 +80,33 @@
           return false;
         }
       }
+
+    function isObjNotPresentInArr(arr1, val, comparisonKey) {
+      let isNotPresent = true;
+      for(let i=0, j=arr1.length; i<j; i++) {
+        if(arr1[i][comparisonKey] === val[comparisonKey]) {
+          isNotPresent = false;
+          break;
+        }
+      }
+
+      return isNotPresent;
+    }
+
+    function convertObjToArray(obj, propNameForKey){
+      let arr = [];
+
+      for(let k in obj) {
+        if(obj.hasOwnProperty(k)) {
+          if(getObjType(propNameForKey) === 'string' && isObjPresent(propNameForKey)){
+            obj[k][propNameForKey] = k;
+          }
+          arr.push(obj[k]);
+        }
+      }
+
+      return arr;
+>>>>>>> 56e98c689e15896e592d84ee17bd6fa7fcb7502d
     }
 
     function getAllQueryStrings() {
