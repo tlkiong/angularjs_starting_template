@@ -80,6 +80,7 @@
           return false;
         }
       }
+    }
 
     function isObjNotPresentInArr(arr1, val, comparisonKey) {
       let isNotPresent = true;
@@ -106,7 +107,6 @@
       }
 
       return arr;
->>>>>>> 56e98c689e15896e592d84ee17bd6fa7fcb7502d
     }
 
     function getAllQueryStrings() {
