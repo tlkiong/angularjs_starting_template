@@ -1,0 +1,50 @@
+@mixin flexAcross() {
+  display: -webkit-flex;
+  -webkit-flex-flow: row nowrap;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+@mixin flowAcross() {
+  display: -webkit-flex;
+  -webkit-flex-flow: row wrap;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+@mixin flexDown() {
+  display: -webkit-flex;
+  -webkit-flex-flow: column nowrap;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+@mixin inlineFlexDown() {
+  display: -webkit-inline-flex;
+  -webkit-flex-flow: column nowrap;
+  display: inline-flex;
+  flex-flow: column nowrap;
+}
+
+@mixin flowDown() {
+  display: -webkit-flex;
+  -webkit-flex-flow: column wrap;
+  display: flex;
+  flex-flow: column wrap;
+}
+
+@mixin reverseRow() {
+  -webkit-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+}
+
+@mixin reverseCol() {
+  -webkit-flex-direction: column-reverse;
+  flex-direction: column-reverse;
+}
+
+@mixin flexExpandShrink($growVal:0, $shrinkVal:0) {
+  -webkit-flex: $growVal $shrinkVal auto;
+  -ms-flex: $growVal $shrinkVal auto;
+  flex: $growVal $shrinkVal auto;
+}
