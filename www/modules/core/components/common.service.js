@@ -27,6 +27,7 @@
     service.convertObjToArray = convertObjToArray;
     service.isObjNotPresentInArr = isObjNotPresentInArr;
     service.isMobileDevice = isMobileDevice;
+    service.getRandomFromRange = getRandomFromRange;
 
     /* ======================================== Var ==================================================== */
     var spinner; // This is for spin.js
@@ -35,6 +36,15 @@
     /* ======================================== Services =============================================== */
 
     /* ======================================== Public Methods ========================================= */
+    
+    /**
+     * Code taken from: https://stackoverflow.com/questions/1527803/generating-random-whole-numbers-in-javascript-in-a-specific-range#answer-1527834
+     * Returns a random number between min (inclusive) and max (exclusive)
+     */
+    function getRandomFromRange(minimum, maximum) {
+      return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+    }
+    
     function isMobileDevice(type) {
       var isAndroid = navigator.userAgent.match(/Android/i);
       var isIos = navigator.userAgent.match(/iPhone|iPad|iPod/i);
